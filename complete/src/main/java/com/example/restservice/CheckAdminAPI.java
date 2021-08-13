@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -35,26 +36,25 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/checkAdmin")
+@RequestMapping("/admin")
 public class CheckAdminAPI {
     private List<Admin> list = new ArrayList<>();
     
-    @GetMapping("/admin")
+    @GetMapping("/getAllAdmin")
     public List<Admin> findAllAdmin(){
         AdminDAO admDAO = new AdminDAO();
         return admDAO.findAllAdmin();
     }
     
-    @PostMapping(path="/adminInfo", consumes = MediaType.APPLICATION_JSON, 
-        produces = MediaType.APPLICATION_JSON)
-    public Admin getAdminInfo(@RequestBody Admin adm){
+    @GetMapping(path="/adminInfo")
+    public Admin getAdminInfo(@RequestParam(name = "user") String username){
         AdminDAO admDAO = new AdminDAO();
         Admin adminRoot = new Admin();
-        adminRoot = admDAO.findAdmin(adm.getUsername());
+        adminRoot = admDAO.findAdmin(username);
         return adminRoot;
     }
     
-    @PostMapping(path="adminLogin", consumes = MediaType.APPLICATION_JSON, 
+    @PostMapping(path="checkAdmin", consumes = MediaType.APPLICATION_JSON, 
         produces = MediaType.APPLICATION_JSON)
     public NotifyMessage checkAdmin(@RequestBody Admin adm){
         AdminDAO admDAO = new AdminDAO();
