@@ -1,5 +1,6 @@
 package com.example.restservice.model.admin;
 
+import com.example.restservice.model.Admin;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;

@@ -5,10 +5,10 @@
  */
 package com.example.restservice;
 
-import com.example.restservice.dao.admin.AdminDAO;
-import com.example.restservice.model.admin.Admin;
-import com.model.admin.Constant;
-import com.model.admin.NotifyMessage;
+import com.example.restservice.dao.AdminDAO;
+import com.example.restservice.model.Admin;
+import com.example.restservice.model.Constant;
+import com.example.restservice.model.NotifyMessage;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Context;
