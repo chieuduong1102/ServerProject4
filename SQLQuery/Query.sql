@@ -1,0 +1,11 @@
+CREATE DATABASE project4;
+USE project4;
+
+CREATE TABLE admin (
+	username VARCHAR(100) PRIMARY KEY NOT NULL,
+	fullname VARCHAR(100) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	phonenumber VARCHAR(11) NOT NULL,
+	`password` VARCHAR(100) NOT NULL
+);
+
