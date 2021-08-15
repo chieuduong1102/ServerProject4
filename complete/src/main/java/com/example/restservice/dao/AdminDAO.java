@@ -7,8 +7,12 @@ package com.example.restservice.dao;
 
 import com.example.restservice.model.Admin;
 import com.example.restservice.model.AdminJpaController;
+import com.example.restservice.model.Constant;
+import com.example.restservice.model.NotifyMessage;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Persistence;
 
 /**
@@ -29,5 +33,59 @@ public class AdminDAO implements Serializable{
     public Admin findAdmin(String username){
         AdminJpaController adminJPA = new AdminJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         return adminJPA.findAdmin(username);
+    }
+    
+    public NotifyMessage createAdmin(Admin adm){
+        AdminJpaController adminJPA = new AdminJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        NotifyMessage msg = new NotifyMessage();
+        try {
+            if(findAdmin(adm.getUsername()) != null){
+                msg.setMsg(Constant.REGISTER_FAIL);
+                msg.setCode(Constant.REGISTER_CODE_ACC_EXIST);
+            } else if(findAdmin(adm.getUsername()) == null) {
+                adminJPA.create(adm);
+                msg.setMsg(Constant.REGISTER_SUCCESS);
+                msg.setCode(Constant.REGISTER_CODE_SUSCCESS);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AdminDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return msg;
+    }
+    
+    public NotifyMessage updateAdmin(Admin adm){
+        AdminJpaController adminJPA = new AdminJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        NotifyMessage msg = new NotifyMessage();
+        try {
+            if(findAdmin(adm.getUsername()) == null){
+                msg.setMsg(Constant.UPDATE_FAIL);
+                msg.setCode(Constant.UPDATE_CODE_ACC_NOTEXIST);
+            } else if(findAdmin(adm.getUsername()) != null) {
+                adminJPA.edit(adm);
+                msg.setMsg(Constant.UPDATE_SUCCESS);
+                msg.setCode(Constant.UPDATE_CODE_SUSCCESS);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AdminDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return msg;
+    }
+    
+    public NotifyMessage deleteAdmin(Admin adm){
+        AdminJpaController adminJPA = new AdminJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        NotifyMessage msg = new NotifyMessage();
+        try {
+            if(findAdmin(adm.getUsername()) == null){
+                msg.setMsg(Constant.DELETE_FAIL);
+                msg.setCode(Constant.DELETE_CODE_ACC_NOTEXIST);
+            } else if(findAdmin(adm.getUsername()) != null) {
+                adminJPA.destroy(adm.getUsername());
+                msg.setMsg(Constant.DELETE_SUCCESS);
+                msg.setCode(Constant.DELETE_CODE_SUSCCESS);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AdminDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return msg;
     }
 }

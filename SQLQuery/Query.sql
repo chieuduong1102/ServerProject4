@@ -9,3 +9,5 @@ CREATE TABLE admin (
 	`password` VARCHAR(100) NOT NULL
 );
 
+INSERT INTO 
+
