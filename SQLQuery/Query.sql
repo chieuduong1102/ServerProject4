@@ -9,5 +9,73 @@ CREATE TABLE admin (
 	`password` VARCHAR(100) NOT NULL
 );
 
-INSERT INTO 
+CREATE TABLE `user` (
+	username VARCHAR(100) PRIMARY KEY NOT NULL,
+	fullname VARCHAR(100) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	phonenumber VARCHAR(11) NOT NULL,
+	address VARCHAR(500) NOT NULL,
+	`password` VARCHAR(100) NOT NULL
+);
 
+CREATE TABLE `category` (
+	cid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	categoryName  VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE `book` (
+	bid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	titleBook  VARCHAR(255) NOT NULL,
+	author  VARCHAR(255) NOT NULL,
+	manufacture  VARCHAR(255) NOT NULL,
+	publishingCompany  VARCHAR(255) NOT NULL,
+	yearPublish INT ,
+	price DOUBLE,
+	description TEXT,
+	`status` INT
+);
+
+CREATE TABLE bookCategory (
+	id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cid INT NOT NULL,
+	bid INT NOT NULL,
+	FOREIGN KEY (cid) REFERENCES category(cid),
+	FOREIGN KEY (bid) REFERENCES book(bid)
+)
+
+CREATE TABLE ratingFeedback (
+	id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	username VARCHAR(100) NOT NULL,
+	bid INT NOT NULL,
+	scoreRate INT,
+	feedback TEXT,
+	FOREIGN KEY (username) REFERENCES `user`(username),
+	FOREIGN KEY (bid) REFERENCES book(bid)
+)
+
+CREATE TABLE `order` (
+	oid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	timeOrder VARCHAR(255) NOT NULL,
+	username VARCHAR(100) NOT NULL,
+	deliveryAddress VARCHAR(500) NOT NULL,
+	totalPrice DOUBLE NOT NULL,
+	note TEXT,
+	`status` INT NOT NULL,
+	FOREIGN KEY (username) REFERENCES `user`(username)
+);
+
+CREATE TABLE orderDetail (
+	id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	oid INT NOT NULL,
+	bid INT NOT NULL,
+	amount INT NOT NULL,
+	FOREIGN KEY (oid) REFERENCES `order`(oid),
+	FOREIGN KEY (bid) REFERENCES book(bid)
+);
+
+CREATE TABLE image (
+	iid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	bid INT NOT NULL,
+	nameFile VARCHAR(255),
+	FOREIGN KEY (bid) REFERENCES book(bid)	
+);
