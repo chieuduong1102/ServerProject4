@@ -127,6 +127,20 @@ public class AdminJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<Admin> findAdminByName(String name){
+        EntityManager em = getEntityManager();
+        try{
+            return (List<Admin>) em.createNamedQuery("Admin.findByFullnameLike")
+                .setParameter("fullname", "%"+ name+"%")
+                .getResultList();
+        }catch(Exception e){
+            return null;
+        }finally{
+            em.close();
+        }
+        
+    }
 
     public int getAdminCount() {
         EntityManager em = getEntityManager();

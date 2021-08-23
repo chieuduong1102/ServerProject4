@@ -23,6 +23,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,25 +42,37 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RequestMapping("/admin")
 public class AdminAPI {
+
     private List<Admin> list = new ArrayList<>();
-    
+
     @GetMapping("/getAllAdmin")
-    public List<Admin> findAllAdmin(){
+    public List<Admin> findAllAdmin() {
         AdminDAO admDAO = new AdminDAO();
         return admDAO.findAllAdmin();
     }
-    
-    @GetMapping(path="/adminInfo")
-    public Admin getAdminInfo(@RequestParam(name = "admin") String username){
+
+    @GetMapping(path = "/adminInfo")
+    public Admin getAdminInfo(@RequestParam(name = "admin") String username) {
         AdminDAO admDAO = new AdminDAO();
         Admin adminRoot = new Admin();
         adminRoot = admDAO.findAdmin(username);
         return adminRoot;
     }
-    
-    @PostMapping(path="checkAdmin", consumes = MediaType.APPLICATION_JSON, 
-        produces = MediaType.APPLICATION_JSON)
-    public NotifyMessage checkAdmin(@RequestBody Admin adm){
+
+    @GetMapping(path = "/findAdminByName")
+    public ResponseEntity<List<Admin>> findAdminByName(@RequestParam(name = "name") String name) {
+        AdminDAO admDAO = new AdminDAO();
+        List<Admin> adminRoot = new ArrayList<>();
+        adminRoot = admDAO.findAdminByName(name);
+        if(adminRoot.size()>0)
+            return new ResponseEntity<>(adminRoot, HttpStatus.OK);
+        else
+            return new ResponseEntity(adminRoot,HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping(path = "checkAdmin", consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON)
+    public NotifyMessage checkAdmin(@RequestBody Admin adm) {
         AdminDAO admDAO = new AdminDAO();
         NotifyMessage notify = new NotifyMessage();
         Admin adminRoot = new Admin();
@@ -68,7 +82,7 @@ public class AdminAPI {
             notify.setMsg(Constant.LOGIN_FAIL);
             notify.setCode(Constant.LOGIN_CODE_FAIL);
         } else if (adminRoot != null) {
-            if (!adminRoot.getPassword().equals(Encode.getSHAHash(adm.getPassword())) || adm.getPassword() == "" || adm.getPassword() == null ) {
+            if (!adminRoot.getPassword().equals(Encode.getSHAHash(adm.getPassword())) || adm.getPassword() == "" || adm.getPassword() == null) {
                 notify.setMsg(Constant.LOGIN_FAIL);
                 notify.setCode(Constant.LOGIN_CODE_FAIL);
             } else {
@@ -79,10 +93,10 @@ public class AdminAPI {
         }
         return notify;
     }
-    
-    @PostMapping(path="create", consumes = MediaType.APPLICATION_JSON, 
-        produces = MediaType.APPLICATION_JSON)
-    public NotifyMessage createAdminAccount(@RequestBody Admin adm){
+
+    @PostMapping(path = "create", consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON)
+    public NotifyMessage createAdminAccount(@RequestBody Admin adm) {
         AdminDAO admDAO = new AdminDAO();
         Admin newAdmin = new Admin();
         NotifyMessage msg = new NotifyMessage();
@@ -94,14 +108,14 @@ public class AdminAPI {
             newAdmin.setPassword(Encode.getSHAHash(adm.getPassword()));
             msg = admDAO.createAdmin(newAdmin);
         } catch (Exception e) {
-            
+
         }
         return msg;
     }
-    
-    @PostMapping(path="update", consumes = MediaType.APPLICATION_JSON, 
-        produces = MediaType.APPLICATION_JSON)
-    public NotifyMessage updateAdminAccount(@RequestBody Admin adm){
+
+    @PostMapping(path = "update", consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON)
+    public NotifyMessage updateAdminAccount(@RequestBody Admin adm) {
         AdminDAO admDAO = new AdminDAO();
         Admin updAdmin = new Admin();
         NotifyMessage msg = new NotifyMessage();
@@ -113,14 +127,14 @@ public class AdminAPI {
             updAdmin.setPassword(Encode.getSHAHash(adm.getPassword()));
             msg = admDAO.updateAdmin(updAdmin);
         } catch (Exception e) {
-            
+
         }
         return msg;
     }
-    
-    @PostMapping(path="delete", consumes = MediaType.APPLICATION_JSON, 
-        produces = MediaType.APPLICATION_JSON)
-    public NotifyMessage deleteAdminAccount(@RequestBody Admin adm){
+
+    @PostMapping(path = "delete", consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON)
+    public NotifyMessage deleteAdminAccount(@RequestBody Admin adm) {
         AdminDAO admDAO = new AdminDAO();
         Admin delAdmin = new Admin();
         NotifyMessage msg = new NotifyMessage();
@@ -132,7 +146,7 @@ public class AdminAPI {
             delAdmin.setPassword(Encode.getSHAHash(adm.getPassword()));
             msg = admDAO.deleteAdmin(delAdmin);
         } catch (Exception e) {
-            
+
         }
         return msg;
     }

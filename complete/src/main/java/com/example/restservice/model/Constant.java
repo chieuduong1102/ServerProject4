@@ -18,6 +18,13 @@ public class Constant {
     public static String DELETE_FAIL = "Delete Fail!";
     public static String UPDATE_SUCCESS = "Update Success!";
     public static String UPDATE_FAIL = "Update Fail!";
+    
+    public static final String INSERT_CATEGORY_SUCCESS = "Insert new category successfully1!";
+    public static final String INSERT_CATEGORY_FAIL = "Insert new category failed!";
+    public static final String CATEGORY_EXIST = "Category have already existed";
+    public static final String EDIT_CATEGORY_SUCCESS = "Edit category successfully!";
+    public static final String DELETE_CATEGORY_SUCCESS = "Delete category successfully!";
+    
     public static int LOGIN_CODE_SUSCCESS = 100;
     public static int LOGIN_CODE_FAIL = 101;
     public static int REGISTER_CODE_SUSCCESS = 200;

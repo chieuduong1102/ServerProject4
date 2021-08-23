@@ -35,6 +35,11 @@ public class AdminDAO implements Serializable{
         return adminJPA.findAdmin(username);
     }
     
+    public List<Admin> findAdminByName(String name){
+        AdminJpaController jpaController = new AdminJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        return jpaController.findAdminByName(name);
+    }
+    
     public NotifyMessage createAdmin(Admin adm){
         AdminJpaController adminJPA = new AdminJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         NotifyMessage msg = new NotifyMessage();
