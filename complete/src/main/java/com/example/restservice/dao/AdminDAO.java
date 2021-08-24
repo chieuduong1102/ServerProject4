@@ -6,7 +6,7 @@
 package com.example.restservice.dao;
 
 import com.example.restservice.model.Admin;
-import com.example.restservice.model.AdminJpaController;
+import com.example.restservice.controller.AdminJpaController;
 import com.example.restservice.model.Constant;
 import com.example.restservice.model.NotifyMessage;
 import java.io.Serializable;
@@ -21,6 +21,14 @@ import javax.persistence.Persistence;
  */
 public class AdminDAO implements Serializable{
 
+//    public static void main(String[] args) {
+//        AdminDAO dao = new AdminDAO();
+//        List<Admin> list = dao.findAllAdmin();
+//        for (Admin admin : list) {
+//            System.out.println("Admin: " + admin);
+//        }
+//    }
+    
     public AdminDAO() {
         
     }
@@ -33,6 +41,11 @@ public class AdminDAO implements Serializable{
     public Admin findAdmin(String username){
         AdminJpaController adminJPA = new AdminJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         return adminJPA.findAdmin(username);
+    }
+    
+    public List<Admin> findAdminByName(String name){
+        AdminJpaController jpaController = new AdminJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        return jpaController.findAdminByName(name);
     }
     
     public NotifyMessage createAdmin(Admin adm){
@@ -89,3 +102,4 @@ public class AdminDAO implements Serializable{
         return msg;
     }
 }
+

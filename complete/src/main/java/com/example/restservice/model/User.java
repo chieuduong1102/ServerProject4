@@ -6,34 +6,32 @@
 package com.example.restservice.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author DuongPH
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user", catalog = "project4", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
     , @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
-    , @NamedQuery(name = "User.findByFullname", query = "SELECT u FROM User u WHERE u.fullname LIKE :fullname")
-    , @NamedQuery(name = "User.findByValueSearch", query = "SELECT u FROM User u "
-            + "WHERE u.fullname LIKE :value"
-            + " OR u.username LIKE :value"
-            + " OR u.email LIKE :value"
-            + " OR u.phonenumber LIKE :value"
-            + " OR u.address LIKE :value")
+    , @NamedQuery(name = "User.findByFullname", query = "SELECT u FROM User u WHERE u.fullname = :fullname")
     , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
     , @NamedQuery(name = "User.findByPhonenumber", query = "SELECT u FROM User u WHERE u.phonenumber = :phonenumber")
     , @NamedQuery(name = "User.findByAddress", query = "SELECT u FROM User u WHERE u.address = :address")
@@ -73,6 +71,10 @@ public class User implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "password")
     private String password;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
+    private List<Ratingfeedback> ratingfeedbackList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
+    private List<Order1> order1List;
 
     public User() {
     }
@@ -136,6 +138,24 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @XmlTransient
+    public List<Ratingfeedback> getRatingfeedbackList() {
+        return ratingfeedbackList;
+    }
+
+    public void setRatingfeedbackList(List<Ratingfeedback> ratingfeedbackList) {
+        this.ratingfeedbackList = ratingfeedbackList;
+    }
+
+    @XmlTransient
+    public List<Order1> getOrder1List() {
+        return order1List;
+    }
+
+    public void setOrder1List(List<Order1> order1List) {
+        this.order1List = order1List;
     }
 
     @Override

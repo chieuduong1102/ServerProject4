@@ -18,6 +18,7 @@ CREATE TABLE `user` (
 	`password` VARCHAR(100) NOT NULL
 );
 
+
 CREATE TABLE `category` (
 	cid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	categoryName  VARCHAR(100) NOT NULL
@@ -79,3 +80,5 @@ CREATE TABLE image (
 	nameFile VARCHAR(255),
 	FOREIGN KEY (bid) REFERENCES book(bid)	
 );
+
+ALTER TABLE `book` ADD COLUMN dateSale VARCHAR(10) AFTER yearPublish;

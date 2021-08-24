@@ -2,12 +2,19 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ServerRESTfulAPIPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.example.restservice.model.Admin</class>
     <class>com.example.restservice.model.User</class>
+    <class>com.example.restservice.model.Orderdetail</class>
+    <class>com.example.restservice.model.Image</class>
+    <class>com.example.restservice.model.Book</class>
+    <class>com.example.restservice.model.Bookcategory</class>
+    <class>com.example.restservice.model.Order1</class>
+    <class>com.example.restservice.model.Ratingfeedback</class>
+    <class>com.example.restservice.model.Admin</class>
+    <class>com.example.restservice.model.Category</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/project4?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/project4?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value=""/>
     </properties>
   </persistence-unit>
