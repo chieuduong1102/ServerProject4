@@ -1,7 +1,8 @@
 package com.example.restservice.model;
 
-import com.example.restservice.model.Book;
-import com.example.restservice.model.Category;
+import com.project4.restservice.model.Bookcategory;
+import com.project4.restservice.model.Book;
+import com.project4.restservice.model.Category;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
