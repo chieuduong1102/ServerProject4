@@ -10,20 +10,10 @@ import com.project4.hobookstore.encode.Encode;
 import com.project4.hobookstore.model.Admin;
 import com.project4.hobookstore.base.Constant;
 import com.project4.hobookstore.base.NotifyMessage;
-import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import static javax.ws.rs.HttpMethod.POST;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
-import javax.ws.rs.core.MediaType;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,8 +60,8 @@ public class AdminAPI {
             return new ResponseEntity(adminRoot,HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(path = "checkAdmin", consumes = MediaType.APPLICATION_JSON,
-            produces = MediaType.APPLICATION_JSON)
+    @PostMapping(path = "checkAdmin", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public NotifyMessage checkAdmin(@RequestBody Admin adm) {
         AdminService admDAO = new AdminService();
         NotifyMessage notify = new NotifyMessage();
@@ -94,8 +84,8 @@ public class AdminAPI {
         return notify;
     }
 
-    @PostMapping(path = "create", consumes = MediaType.APPLICATION_JSON,
-            produces = MediaType.APPLICATION_JSON)
+    @PostMapping(path = "create", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public NotifyMessage createAdminAccount(@RequestBody Admin adm) {
         AdminService admSer = new AdminService();
         Admin newAdmin = new Admin();
@@ -113,8 +103,8 @@ public class AdminAPI {
         return msg;
     }
 
-    @PostMapping(path = "update", consumes = MediaType.APPLICATION_JSON,
-            produces = MediaType.APPLICATION_JSON)
+    @PostMapping(path = "update", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public NotifyMessage updateAdminAccount(@RequestBody Admin adm) {
         AdminService admDAO = new AdminService();
         Admin updAdmin = new Admin();
@@ -132,8 +122,8 @@ public class AdminAPI {
         return msg;
     }
 
-    @PostMapping(path = "delete", consumes = MediaType.APPLICATION_JSON,
-            produces = MediaType.APPLICATION_JSON)
+    @PostMapping(path = "delete", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public NotifyMessage deleteAdminAccount(@RequestBody Admin adm) {
         AdminService admDAO = new AdminService();
         Admin delAdmin = new Admin();
