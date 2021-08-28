@@ -1,13 +1,13 @@
-package com.example.restservice.model;
+package com.project4.hobookstore.model;
 
-import com.example.restservice.model.Orderdetail;
-import com.example.restservice.model.User;
+import com.project4.hobookstore.model.Orderdetail;
+import com.project4.hobookstore.model.User;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-08-24T17:16:51")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-08-28T16:25:18")
 @StaticMetamodel(Order1.class)
 public class Order1_ { 
 

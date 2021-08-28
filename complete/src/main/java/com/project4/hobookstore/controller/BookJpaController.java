@@ -362,6 +362,19 @@ public class BookJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public Book findOneBook(String title, String author, String publishingCompany, int yearPublish) {
+        EntityManager em = getEntityManager();
+        try {
+            return (Book) em.createNamedQuery("Book.findOneBook").setParameter("titleBook", title)
+                    .setParameter("author", author)
+                    .setParameter("publishingCompany", publishingCompany)
+                    .setParameter("yearPublish", yearPublish)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 
     public int getBookCount() {
         EntityManager em = getEntityManager();

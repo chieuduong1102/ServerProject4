@@ -5,23 +5,20 @@
  */
 package com.project4.hobookstore.dto;
 
+import lombok.Data;
+
 /**
  *
  * @author DuongPH
  */
-public class BookCategoryDTO {
-
-    
-    private CategoryDTO cid;
-   
-    public CategoryDTO getCid() {
-        return cid;
-    }
-
-    public void setCid(CategoryDTO cid) {
-        this.cid = cid;
-    }
-
+@Data
+public class UserDTO {
+    private String username;
+    private String fullname;
+    private String email;
+    private String phonenumber;
+    private String address;
+    private String password;
     
     
 }

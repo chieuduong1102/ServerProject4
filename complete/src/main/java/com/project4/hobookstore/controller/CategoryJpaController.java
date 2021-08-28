@@ -186,6 +186,15 @@ public class CategoryJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public Category findIdOfCategoryByName(String name) {
+        EntityManager em = getEntityManager();
+        try {
+            return (Category) em.createNamedQuery("Category.findByCategoryName").setParameter("categoryName", name).getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 
     public int getCategoryCount() {
         EntityManager em = getEntityManager();

@@ -6,6 +6,7 @@
 package com.project4.hobookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.project4.hobookstore.dto.ImageDTO;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -39,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Book.findByAuthor", query = "SELECT b FROM Book b WHERE b.author = :author")
     , @NamedQuery(name = "Book.findByManufacture", query = "SELECT b FROM Book b WHERE b.manufacture = :manufacture")
     , @NamedQuery(name = "Book.findByPublishingCompany", query = "SELECT b FROM Book b WHERE b.publishingCompany = :publishingCompany")
+    , @NamedQuery(name = "Book.findOneBook", query = "SELECT b FROM Book b WHERE b.titleBook = :titleBook AND b.author = :author AND b.publishingCompany = :publishingCompany AND b.yearPublish = :yearPublish")
     , @NamedQuery(name = "Book.findByYearPublish", query = "SELECT b FROM Book b WHERE b.yearPublish = :yearPublish")
     , @NamedQuery(name = "Book.findByDateSale", query = "SELECT b FROM Book b WHERE b.dateSale = :dateSale")
     , @NamedQuery(name = "Book.findByPrice", query = "SELECT b FROM Book b WHERE b.price = :price")
@@ -142,6 +144,20 @@ public class Book implements Serializable {
         this.imageList = imageList;
         this.bookcategoryList = bookcategoryList;
         this.orderdetailList = orderdetailList;
+    }
+
+    public Book(String titleBook, String author, String manufacture, String publishingCompany, Integer yearPublish, String dateSale, Double price, String description, Integer status, List<Ratingfeedback> ratingfeedbackList, List<Image> imageList) {
+                this.titleBook = titleBook;
+        this.author = author;
+        this.manufacture = manufacture;
+        this.publishingCompany = publishingCompany;
+        this.yearPublish = yearPublish;
+        this.dateSale = dateSale;
+        this.price = price;
+        this.description = description;
+        this.status = status;
+        this.ratingfeedbackList = ratingfeedbackList;
+        this.imageList = imageList;
     }
 
     

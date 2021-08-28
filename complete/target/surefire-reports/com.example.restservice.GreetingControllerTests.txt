@@ -1,12 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: com.example.restservice.GreetingControllerTests
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 2.384 s <<< FAILURE! - in com.example.restservice.GreetingControllerTests
-noParamGreetingShouldReturnDefaultMessage  Time elapsed: 0.277 s  <<< FAILURE!
-java.lang.AssertionError: Status expected:<200> but was:<404>
-	at com.example.restservice.GreetingControllerTests.noParamGreetingShouldReturnDefaultMessage(GreetingControllerTests.java:40)
-
-paramGreetingShouldReturnTailoredMessage  Time elapsed: 0.01 s  <<< FAILURE!
-java.lang.AssertionError: Status expected:<200> but was:<404>
-	at com.example.restservice.GreetingControllerTests.paramGreetingShouldReturnTailoredMessage(GreetingControllerTests.java:48)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.208 s <<< FAILURE! - in com.example.restservice.GreetingControllerTests
+com.example.restservice.GreetingControllerTests  Time elapsed: 0.207 s  <<< ERROR!
+java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you need to use @ContextConfiguration or @SpringBootTest(classes=...) with your test
 

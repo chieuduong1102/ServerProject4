@@ -53,7 +53,7 @@ public class ImageService {
         BookJpaController bookJpa = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         Book book = bookJpa.findBook(bid);
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        Image img = new Image(fileName, book, file.getContentType(), file.getBytes());
+        Image img = new Image(fileName, book);
         imgJpa.create(img);
       }
     

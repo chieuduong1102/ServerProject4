@@ -51,11 +51,6 @@ public class Image implements Serializable {
     @JsonManagedReference
     private Book bid;
 
-    private String type;
-
-    @Lob
-    private byte[] data;
-
     public Image() {
     }
 
@@ -63,25 +58,19 @@ public class Image implements Serializable {
         this.iid = iid;
     }
 
-    public Image(Integer iid, String nameFile, Book bid, String type, byte[] data) {
+    public Image(Integer iid, String nameFile, Book bid) {
         this.iid = iid;
         this.nameFile = nameFile;
         this.bid = bid;
-        this.type = type;
-        this.data = data;
     }
 
-    public Image(String nameFile, Book bid, String contentType, byte[] bytes) {
+    public Image(String nameFile, Book bid) {
         this.nameFile = nameFile;
         this.bid = bid;
-        this.type = type;
-        this.data = data;
     }
 
-    public Image(String nameFile,  String contentType, byte[] bytes) {
+    public Image(String nameFile) {
         this.nameFile = nameFile;
-        this.type = type;
-        this.data = data;
     }
     
     public Integer getIid() {
@@ -109,21 +98,6 @@ public class Image implements Serializable {
         this.bid = bid;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
 
     @Override
     public int hashCode() {

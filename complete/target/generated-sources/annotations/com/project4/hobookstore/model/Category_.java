@@ -1,12 +1,12 @@
-package com.example.restservice.model;
+package com.project4.hobookstore.model;
 
-import com.example.restservice.model.Bookcategory;
+import com.project4.hobookstore.model.Bookcategory;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-08-24T17:16:51")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-08-28T16:25:18")
 @StaticMetamodel(Category.class)
 public class Category_ { 
 

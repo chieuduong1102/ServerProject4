@@ -52,6 +52,11 @@ public class Bookcategory implements Serializable {
         this.id = id;
     }
 
+    public Bookcategory(Category cid, Book bid) {
+        this.cid = cid;
+        this.bid = bid;
+    }
+
     public Integer getId() {
         return id;
     }

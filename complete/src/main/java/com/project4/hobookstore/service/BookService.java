@@ -16,17 +16,21 @@ import com.project4.hobookstore.model.Category;
 import com.project4.hobookstore.base.Constant;
 import com.project4.hobookstore.model.Image;
 import com.project4.hobookstore.base.NotifyMessage;
+import com.project4.hobookstore.encode.Encode;
 import com.project4.hobookstore.model.Orderdetail;
 import com.project4.hobookstore.model.Ratingfeedback;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Persistence;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  *
@@ -45,9 +49,14 @@ public class BookService implements Serializable {
     public BookService() {
     }
 
-    public void creatBook(Book book){
+    public void createBook(Book book){
         BookJpaController bookJpa = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         bookJpa.createNewBook(book);
+    }
+    
+    public void updateBook(Book book) throws Exception{
+        BookJpaController bookJpa = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        bookJpa.edit(book);
     }
     
     public List<Book> findAll() {
@@ -77,7 +86,12 @@ public class BookService implements Serializable {
             newBook.setStatus(listBook.get(i).getStatus());
 
             List<Image> listImage = new ArrayList<>();
-            listImage = imgJpa.findImageByBId(listBook.get(i).getBid());
+            listImage = imgJpa.findImageByBId(listBook.get(i).getBid()).stream().map(img -> {
+//            String fileUri = "data:image/png;base64,"+ Encode.convertFileIntoBase64String(FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
+//                    "\\uploads\\", img.getNameFile());
+            String fileUri = "data";
+                return new Image(fileUri);
+            }).collect(Collectors.toList());
             newBook.setImageList(listImage);
 
             List<Ratingfeedback> listRf = new ArrayList<>();
@@ -127,6 +141,39 @@ public class BookService implements Serializable {
         return newBook;
     }
 
+    public Book findOneBook(String title, String author, String publishingCompany, int yearPublish ) {
+        BookJpaController bookJpa = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        ImageJpaController imgJpa = new ImageJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        RatingfeedbackJpaController rfJpa = new RatingfeedbackJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        BookcategoryJpaController bcJpa = new BookcategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        Book rootBook = bookJpa.findOneBook(title, author, publishingCompany, yearPublish);
+        Book newBook = new Book();
+        newBook.setBid(rootBook.getBid());
+        newBook.setTitleBook(rootBook.getTitleBook());
+        newBook.setAuthor(rootBook.getAuthor());
+        newBook.setManufacture(rootBook.getManufacture());
+        newBook.setPublishingCompany(rootBook.getPublishingCompany());
+        newBook.setYearPublish(rootBook.getYearPublish());
+        newBook.setDateSale(rootBook.getDateSale());
+        newBook.setPrice(rootBook.getPrice());
+        newBook.setDescription(rootBook.getDescription());
+        newBook.setStatus(rootBook.getStatus());
+
+        List<Image> listImage = new ArrayList<>();
+        listImage = imgJpa.findImageByBId(rootBook.getBid());
+        newBook.setImageList(listImage);
+
+        List<Ratingfeedback> listRf = new ArrayList<>();
+        listRf = rfJpa.findRatingFeedbackByBId(rootBook.getBid());
+        newBook.setRatingfeedbackList(listRf);
+
+        List<Bookcategory> listBc = new ArrayList<>();
+        listBc = bcJpa.findBookCategoryByBId(rootBook.getBid());
+        newBook.setBookcategoryList(listBc);
+
+        return newBook;
+    }
+    
     public void addBook(Book book) {
         BookJpaController jpaController = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         jpaController.create(book);

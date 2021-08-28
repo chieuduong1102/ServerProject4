@@ -1,15 +1,15 @@
-package com.example.restservice.model;
+package com.project4.hobookstore.model;
 
-import com.example.restservice.model.Bookcategory;
-import com.example.restservice.model.Image;
-import com.example.restservice.model.Orderdetail;
-import com.example.restservice.model.Ratingfeedback;
+import com.project4.hobookstore.model.Bookcategory;
+import com.project4.hobookstore.model.Image;
+import com.project4.hobookstore.model.Orderdetail;
+import com.project4.hobookstore.model.Ratingfeedback;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-08-24T17:16:51")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-08-28T16:25:18")
 @StaticMetamodel(Book.class)
 public class Book_ { 
 

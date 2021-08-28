@@ -26,7 +26,12 @@ public class CategoryService implements Serializable {
 
     public List<Category> findAll() {
         CategoryJpaController jpaController = new CategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
-        return jpaController.getCategoryList();
+        return jpaController.findCategoryEntities();
+    }
+    
+    public Category findIdOfCategoryByName(String name){
+        CategoryJpaController jpaController = new CategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        return jpaController.findIdOfCategoryByName(name);
     }
 
     public Category checkCategoryExist(String cateName) {
