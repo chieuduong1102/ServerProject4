@@ -13,6 +13,7 @@ import com.project4.hobookstore.model.Category;
 import com.project4.hobookstore.service.BookCategoryService;
 import com.project4.hobookstore.service.BookService;
 import com.project4.hobookstore.service.CategoryService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,10 +34,19 @@ public class BookCategoryAPI {
 
     @PostMapping(path = "create", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public NotifyMessage createBookCategory(@RequestBody List<CategoryDTO> categoryName, @RequestParam("bid") Integer bid) {
-                NotifyMessage msg = new NotifyMessage();
-                String str = "Category " + categoryName.get(0).getCategoryName() + " / " + categoryName.get(1).getCategoryName()+ " / " + bid.toString() ;
-                System.out.println(""+ str);
-        return msg;
+    public List<NotifyMessage> createBookCategory(@RequestBody List<CategoryDTO> categoryName, @RequestParam("bid") Integer bid) {
+        List<NotifyMessage> listMsg = new ArrayList<>();
+        BookCategoryService bcSer = new BookCategoryService();
+        BookService bSer = new BookService();
+        CategoryService cSer = new CategoryService();
+        Book book = bSer.findBookByBId(bid);
+
+        for (int i = 0; i < categoryName.size(); i++) {
+            Bookcategory newBC = new Bookcategory();
+            newBC.setBid(book);
+            newBC.setCid(cSer.findIdOfCategoryByName(categoryName.get(i).getCategoryName()));
+            listMsg.add(bcSer.createBookCategory(newBC));
+        }
+        return listMsg;
     }
 }

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.project4.hobookstore.service;
+
 import com.project4.hobookstore.controller.CategoryJpaController;
 import com.project4.hobookstore.model.Category;
 import com.project4.hobookstore.base.Constant;
@@ -28,28 +29,23 @@ public class CategoryService implements Serializable {
         CategoryJpaController jpaController = new CategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         return jpaController.findCategoryEntities();
     }
-    
-    public Category findIdOfCategoryByName(String name){
+
+    public Category findIdOfCategoryByName(String name) {
         CategoryJpaController jpaController = new CategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         return jpaController.findIdOfCategoryByName(name);
-    }
-
-    public Category checkCategoryExist(String cateName) {
-        CategoryJpaController jpaController = new CategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
-        return jpaController.checkCategoryExist(cateName);
     }
 
     public NotifyMessage addCategory(Category cate) {
         CategoryJpaController categoryJpaController = new CategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         NotifyMessage msg = new NotifyMessage();
         try {
-            if (checkCategoryExist(cate.getCategoryName()) != null) {
-                msg.setMsg(Constant.CATEGORY_EXIST);
-                msg.setCode(Constant.REGISTER_CODE_FAIL);
-            } else if (checkCategoryExist(cate.getCategoryName()) == null) {
+            if (categoryJpaController.findIdOfCategoryByName(cate.getCategoryName()) == null) {
                 categoryJpaController.create(cate);
                 msg.setMsg(Constant.INSERT_CATEGORY_SUCCESS);
                 msg.setCode(Constant.REGISTER_CODE_SUSCCESS);
+            } else {
+                msg.setMsg(Constant.CATEGORY_EXIST);
+                msg.setCode(Constant.REGISTER_CODE_FAIL);
             }
         } catch (Exception ex) {
             Logger.getLogger(AdminService.class.getName()).log(Level.SEVERE, null, ex);

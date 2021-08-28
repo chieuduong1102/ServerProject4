@@ -191,6 +191,17 @@ public class BookcategoryJpaController implements Serializable {
         }
     }
     
+    public Bookcategory findBookCategoryByBIdAndCId(Integer bid, Integer cid) {
+        EntityManager em = getEntityManager();
+        try {
+            return (Bookcategory) em.createNamedQuery("Bookcategory.findByBIdAndCId").setParameter("bid", bid).setParameter("cid", cid).getSingleResult();
+        }catch(Exception e){
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    
     public int getBookcategoryCount() {
         EntityManager em = getEntityManager();
         try {

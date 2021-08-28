@@ -18,10 +18,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.ws.rs.core.MediaType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,9 +64,9 @@ public class BookAPI {
     }
 
     @PostMapping(path = "/create", 
-//            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public NotifyMessage createBook(@RequestBody Book book) {
+            consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON)
+    public NotifyMessage createBook(@RequestBody BookDTO book) {
         BookService bookSer = new BookService();
         NotifyMessage msg = new NotifyMessage();
         try {
@@ -89,8 +90,8 @@ public class BookAPI {
         return msg;
     }
     
-    @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON)
     public NotifyMessage updateBook(@RequestBody BookDTO book) {
         BookService bookSer = new BookService();
         NotifyMessage msg = new NotifyMessage();

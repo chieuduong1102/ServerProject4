@@ -16,22 +16,20 @@ import lombok.Data;
 @Data
 public class BookDTO {
     private Integer bid;
-    
     private String titleBook;
     private String author;
     private String manufacture;
     private String publishingCompany;
     private Integer yearPublish;
     private String dateSale;
-    
     private Double price;
-   
     private String description;
     private Integer status;
-    private List<Ratingfeedback> ratingfeedbackList;
+    //private List<RatingfeedbackDTO> ratingfeedbackList;
     private List<ImageDTO> imageList;
     private List<BookCategoryDTO> bookcategoryList;
-//    private List<Orderdetail> orderdetailList;
+    //private List<OrderdetailDTO> orderdetailList;
 
+    
     
 }

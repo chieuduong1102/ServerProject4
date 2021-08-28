@@ -5,6 +5,8 @@
  */
 package com.project4.hobookstore.service;
 
+import com.project4.hobookstore.base.Constant;
+import com.project4.hobookstore.base.NotifyMessage;
 import com.project4.hobookstore.controller.BookcategoryJpaController;
 import com.project4.hobookstore.model.Book;
 import com.project4.hobookstore.model.Bookcategory;
@@ -19,29 +21,12 @@ import javax.persistence.Persistence;
  */
 public class BookCategoryService {
 
-    public static void main(String[] args) {
-//        BookCategoryService bcSer = new BookCategoryService();
-//        BookService bSer = new BookService();
-//        CategoryService cSer = new CategoryService();
-//        List<Category> listC = new ArrayList<>();
-//        Category c1 = new Category("Encyclopedia");
-//        Category c2 = new Category("Dictionary");
-//        Book book =  bSer.findBookByBId(1);
-//        listC.add(c1);
-//        listC.add(c2);
-//        for (int i = 0; i < listC.size(); i++) {
-//            Bookcategory newBC = new Bookcategory();
-//            newBC.setBid(book);
-//            newBC.setCid(cSer.findIdOfCategoryByName(listC.get(i).getCategoryName()));
-//            bcSer.createBookCategory(newBC);
-//            System.out.println("BC SUCCESSS");
-//        }
-        List<String> categoryName = new ArrayList<>();
-        categoryName.add("AAA");
-        categoryName.add("AAA");
-        categoryName.add("AAA");
-        System.out.println(categoryName.get(0));
-    }
+//    public static void main(String[] args) {
+//        BookcategoryJpaController bcJpa = new BookcategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+//        Bookcategory bc = bcJpa.findBookCategoryByBIdAndCId(1,1);
+//        System.out.println("BC : " + bc);
+//        
+//    }
     
     public BookCategoryService() {
     }
@@ -56,8 +41,17 @@ public class BookCategoryService {
         return  bcJpa.findBookCategoryByBId(bid);
     }
     
-    public void createBookCategory(Bookcategory bc){
+    public NotifyMessage createBookCategory(Bookcategory bc){
         BookcategoryJpaController bcJpa = new BookcategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
-        bcJpa.create(bc);
+        NotifyMessage msg = new NotifyMessage();
+        if(bcJpa.findBookCategoryByBIdAndCId(bc.getBid().getBid(), bc.getCid().getCid()) == null){
+                bcJpa.create(bc);
+                msg.setCode(Constant.CREATE_SUCCESS);
+                msg.setMsg("Create Success!");
+        } else {
+                msg.setCode(Constant.CREATE_FAIL);
+                msg.setMsg("Category "+bc.getCid().getCategoryName()+" of this book is existed!");
+        }
+        return msg;
     }
 }

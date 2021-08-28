@@ -43,24 +43,10 @@ public class CategoryAPI {
                 .collect(Collectors.toList());
     }
     
-    @PostMapping(path = "checkCategory", consumes = MediaType.APPLICATION_JSON,
-            produces = MediaType.APPLICATION_JSON)
-    public Category checkCategory(@RequestBody Category cate) {
-        CategoryService categorySer = new CategoryService();
-        NotifyMessage msg = new NotifyMessage();
-        Category category = categorySer.checkCategoryExist(cate.getCategoryName());
-        try {
-           if(category == null)
-               return new Category(123,"ok");
-        } catch (Exception e) {
-
-        }
-        return new Category(123,"trung");
-    }
     
     @PostMapping(path = "create", consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON)
-    public NotifyMessage addNewCategory(@RequestBody Category cate) {
+    public NotifyMessage addNewCategory(@RequestBody CategoryDTO cate) {
         CategoryService categorySer = new CategoryService();
         Category newCate = new Category();
         NotifyMessage msg = new NotifyMessage();
