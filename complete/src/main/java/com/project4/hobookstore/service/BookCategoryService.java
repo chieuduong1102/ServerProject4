@@ -47,7 +47,7 @@ public class BookCategoryService {
         if(bcJpa.findBookCategoryByBIdAndCId(bc.getBid().getBid(), bc.getCid().getCid()) == null){
                 bcJpa.create(bc);
                 msg.setCode(Constant.CREATE_SUCCESS);
-                msg.setMsg("Create Success!");
+                msg.setMsg("Create BookCategory Success!");
         } else {
                 msg.setCode(Constant.CREATE_FAIL);
                 msg.setMsg("Category "+bc.getCid().getCategoryName()+" of this book is existed!");

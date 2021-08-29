@@ -84,14 +84,14 @@ public class ImageAPI {
                     imgSer.createImage(image, bid);
                     imgSer.uploadFile(image);
                     msg.setCode(Constant.CREATE_SUCCESS);
-                    msg.setMsg("Create Success!");
+                    msg.setMsg("Create Image Success!");
                 } catch (IOException ex) {
                     Logger.getLogger(ImageAPI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
         } catch (Exception e) {
             msg.setCode(Constant.CREATE_FAIL);
-            msg.setMsg("Create Fail!");
+            msg.setMsg("Create Image Fail!");
         }
         return msg;
     }

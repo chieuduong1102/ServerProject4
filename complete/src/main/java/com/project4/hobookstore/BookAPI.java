@@ -78,8 +78,8 @@ public class BookAPI {
                 book.getPrice(),
                 book.getDescription(),
                 book.getStatus());
-
-        bookSer.createBook(newbook);
+//
+//        bookSer.createBook(newbook);
         return bookSer.createBook(newbook);
     }
 
