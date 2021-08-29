@@ -49,9 +49,10 @@ public class BookService implements Serializable {
     public BookService() {
     }
 
-    public void createBook(Book book){
+    public Book createBook(Book book){
         BookJpaController bookJpa = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         bookJpa.createNewBook(book);
+        return book;
     }
     
     public void updateBook(Book book) throws Exception{

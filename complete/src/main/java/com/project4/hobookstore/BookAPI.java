@@ -63,47 +63,40 @@ public class BookAPI {
         return bookDTO;
     }
 
-    @PostMapping(path = "/create", 
+    @PostMapping(path = "/create",
             consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON)
-    public NotifyMessage createBook(@RequestBody BookDTO book) {
+    public Book createBook(@RequestBody BookDTO book) {
         BookService bookSer = new BookService();
-        NotifyMessage msg = new NotifyMessage();
-        try {
-            Book newbook = new Book(book.getTitleBook(), 
-                    book.getAuthor(), 
-                    book.getManufacture(), 
-                    book.getPublishingCompany(), 
-                    book.getYearPublish(), 
-                    book.getDateSale().toString(), 
-                    book.getPrice(), 
-                    book.getDescription(), 
-                    book.getStatus()
-            );
-            bookSer.createBook(newbook);
-            msg.setCode(Constant.CREATE_SUCCESS);
-            msg.setMsg("Create Book Success!");
-        } catch (Exception e) {
-            msg.setCode(Constant.CREATE_FAIL);
-            msg.setMsg(e.toString());
-        }
-        return msg;
+        
+        Book newbook = new Book(book.getTitleBook(),
+                book.getAuthor(),
+                book.getManufacture(),
+                book.getPublishingCompany(),
+                book.getYearPublish(),
+                book.getDateSale().toString(),
+                book.getPrice(),
+                book.getDescription(),
+                book.getStatus());
+
+        bookSer.createBook(newbook);
+        return bookSer.createBook(newbook);
     }
-    
+
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON)
     public NotifyMessage updateBook(@RequestBody BookDTO book) {
         BookService bookSer = new BookService();
         NotifyMessage msg = new NotifyMessage();
         try {
-            Book updbook = new Book(book.getTitleBook(), 
-                    book.getAuthor(), 
-                    book.getManufacture(), 
-                    book.getPublishingCompany(), 
-                    book.getYearPublish(), 
-                    book.getDateSale(), 
-                    book.getPrice(), 
-                    book.getDescription(), 
+            Book updbook = new Book(book.getTitleBook(),
+                    book.getAuthor(),
+                    book.getManufacture(),
+                    book.getPublishingCompany(),
+                    book.getYearPublish(),
+                    book.getDateSale(),
+                    book.getPrice(),
+                    book.getDescription(),
                     book.getStatus());
             bookSer.updateBook(updbook);
             msg.setCode(Constant.UPDATE_CODE_SUSCCESS);
