@@ -54,4 +54,18 @@ public class BookCategoryService {
         }
         return msg;
     }
+    
+    public NotifyMessage updateBookCategory(Bookcategory bc) throws Exception{
+        BookcategoryJpaController bcJpa = new BookcategoryJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        NotifyMessage msg = new NotifyMessage();
+        if(bcJpa.findBookCategoryByBIdAndCId(bc.getBid().getBid(), bc.getCid().getCid()) != null){
+                bcJpa.edit(bc);
+                msg.setCode(Constant.UPDATE_CODE_SUSCCESS);
+                msg.setMsg("Create BookCategory Success!");
+        } else {
+                msg.setCode(Constant.UPDATE_CODE_FAIL);
+                msg.setMsg("Update Category "+bc.getCid().getCategoryName()+" of this book Fail!");
+        }
+        return msg;
+    }
 }

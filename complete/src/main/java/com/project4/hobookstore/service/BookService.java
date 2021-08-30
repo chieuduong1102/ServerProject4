@@ -88,9 +88,9 @@ public class BookService implements Serializable {
 
             List<Image> listImage = new ArrayList<>();
             listImage = imgJpa.findImageByBId(listBook.get(i).getBid()).stream().map(img -> {
-//            String fileUri = "data:image/png;base64,"+ Encode.convertFileIntoBase64String(FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
-//                    "\\uploads\\", img.getNameFile());
-            String fileUri = "data";
+            String fileUri = "data:image/png;base64,"+ Encode.convertFileIntoBase64String(FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
+                    "\\uploads\\", img.getNameFile());
+            
                 return new Image(fileUri);
             }).collect(Collectors.toList());
             newBook.setImageList(listImage);
@@ -127,9 +127,14 @@ public class BookService implements Serializable {
         newBook.setDescription(rootBook.getDescription());
         newBook.setStatus(rootBook.getStatus());
 
-        List<Image> listImage = new ArrayList<>();
-        listImage = imgJpa.findImageByBId(rootBook.getBid());
-        newBook.setImageList(listImage);
+            List<Image> listImage = new ArrayList<>();
+            listImage = imgJpa.findImageByBId(rootBook.getBid()).stream().map(img -> {
+            String fileUri = "data:image/png;base64,"+ Encode.convertFileIntoBase64String(FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
+                    "\\uploads\\", img.getNameFile());
+            
+                return new Image(fileUri);
+            }).collect(Collectors.toList());
+            newBook.setImageList(listImage);
 
         List<Ratingfeedback> listRf = new ArrayList<>();
         listRf = rfJpa.findRatingFeedbackByBId(rootBook.getBid());
