@@ -82,7 +82,10 @@ public class User implements Serializable {
     public User(String username) {
         this.username = username;
     }
-
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
     public User(String username, String fullname, String email, String phonenumber, String address, String password) {
         this.username = username;
         this.fullname = fullname;

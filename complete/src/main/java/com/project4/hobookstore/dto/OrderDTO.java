@@ -8,11 +8,13 @@ package com.project4.hobookstore.dto;
 import com.project4.hobookstore.model.Book;
 import com.project4.hobookstore.model.Order1;
 import com.project4.hobookstore.model.User;
+import lombok.Data;
 
 /**
  *
  * @author DuongPH
  */
+@Data
 public class OrderDTO {
     
     private String timeOrder;

@@ -5,10 +5,13 @@
  */
 package com.project4.hobookstore.dto;
 
+import lombok.Data;
+
 /**
  *
  * @author DuongPH
  */
+@Data
 public class ImageDTO {
     private String nameFile;
     private String type;

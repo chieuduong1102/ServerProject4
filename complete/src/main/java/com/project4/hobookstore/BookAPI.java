@@ -55,6 +55,13 @@ public class BookAPI {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/getBookHot")
+    public List<BookDTO> findBooksHot() throws IOException {
+        BookService bookSer = new BookService();
+        return bookSer.findAllBookFull().stream().map(book -> modelMapper.map(book, BookDTO.class))
+                .collect(Collectors.toList());
+    }
+    
     @GetMapping(path = "/bookInfo")
     public BookDTO getAdminInfo(@RequestParam(name = "bid") Integer bid) {
         BookService bookSer = new BookService();

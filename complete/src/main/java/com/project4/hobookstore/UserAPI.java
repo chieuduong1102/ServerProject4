@@ -47,7 +47,7 @@ public class UserAPI {
     @GetMapping("/getAllUser")
     public List<UserDTO> findAllUser(){
         UserService userSer = new UserService();
-        return userSer.findAllUser().stream().map(book -> modelMapper.map(book, UserDTO.class))
+        return userSer.findAllUser().stream().map(user -> modelMapper.map(user, UserDTO.class))
                 .collect(Collectors.toList());
     }
     
@@ -62,7 +62,7 @@ public class UserAPI {
 
     @PostMapping(path="checkUser", consumes = MediaType.APPLICATION_JSON_VALUE, 
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public NotifyMessage checkUser(@RequestBody User user){
+    public NotifyMessage checkUser(@RequestBody UserDTO user){
         UserService userSer = new UserService();
         NotifyMessage notify = new NotifyMessage();
         User userRoot = new User();
