@@ -137,7 +137,7 @@ public class BookJpaController implements Serializable {
         }
     }
 
-    public void edit(Book book) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public Book edit(Book book) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -275,6 +275,7 @@ public class BookJpaController implements Serializable {
                 em.close();
             }
         }
+        return book;
     }
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
@@ -362,7 +363,7 @@ public class BookJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Book findOneBook(String title, String author, String publishingCompany, int yearPublish) {
         EntityManager em = getEntityManager();
         try {
@@ -395,7 +396,10 @@ public class BookJpaController implements Serializable {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery(Book.class);
             Root<Book> root = cq.from(Book.class);
 //            Join<Book,Image> bookImage = root.join(Book_.);
-            cq.multiselect(root.get("bid"), root.get("titleBook"), root.get("author"), root.get("manufacture"), root.get("publishingCompany"), root.get("yearPublish"), root.get("dateSale"), root.get("price"), root.get("description"), root.get("status"), root.get("imageList"), root.get("bookcategoryList"));
+            cq.multiselect(root.get("bid"), root.get("titleBook"), root.get("author"), root.get("manufacture"), root.get("publishingCompany"),
+                    root.get("yearPublish"), root.get("dateSale"),
+                    root.get("price"), root.get("description"), root.get("status"),
+                    root.get("imageList"), root.get("bookcategoryList"));
             Query q = em.createQuery(cq);
             ((org.eclipse.persistence.jpa.JpaQuery) q).getDatabaseQuery().dontMaintainCache();
             return (List<Book>) q.getResultList();
@@ -403,6 +407,24 @@ public class BookJpaController implements Serializable {
             em.close();
         }
 //        
+    }
+
+    public void updateBook(Book book) {
+        EntityManager em = null;
+        em = getEntityManager();
+        em.getTransaction().begin();
+        em.createNamedQuery("Book.updateBook").setParameter("titleBook", book.getTitleBook())
+                .setParameter("author", book.getAuthor())
+                .setParameter("manufacture", book.getManufacture())
+                .setParameter("publishingCompany", book.getPublishingCompany())
+                .setParameter("yearPublish", book.getYearPublish())
+                .setParameter("dateSale", book.getDateSale())
+                .setParameter("price", book.getPrice())
+                .setParameter("description", book.getDescription())
+                .setParameter("status", book.getStatus())
+                .setParameter("bid", book.getBid());
+        em.getTransaction().commit();
+        em.close();
     }
 
 }

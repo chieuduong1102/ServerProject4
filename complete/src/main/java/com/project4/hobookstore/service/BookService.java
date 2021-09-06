@@ -55,9 +55,15 @@ public class BookService implements Serializable {
         return book;
     }
     
-    public void updateBook(Book book) throws Exception{
+    public Book updateBook(Book book) {
         BookJpaController bookJpa = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
-        bookJpa.edit(book);
+        if(bookJpa.findBook(book.getBid()) != null){
+            bookJpa.updateBook(book);
+            return book;
+        } else {
+            return null;
+        }
+
     }
     
     public List<Book> findAll() {

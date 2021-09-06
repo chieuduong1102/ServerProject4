@@ -44,6 +44,17 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Book.findByYearPublish", query = "SELECT b FROM Book b WHERE b.yearPublish = :yearPublish")
     , @NamedQuery(name = "Book.findByDateSale", query = "SELECT b FROM Book b WHERE b.dateSale = :dateSale")
     , @NamedQuery(name = "Book.findByPrice", query = "SELECT b FROM Book b WHERE b.price = :price")
+    , @NamedQuery(name = "Book.updateBook", query = "UPDATE Book b"
+            + " SET b.titleBook = :titleBook"
+            + " , b.author = :author"
+            + " , b.manufacture = :manufacture"
+            + " , b.publishingCompany = :publishingCompany"
+            + " , b.yearPublish = :yearPublish"
+            + " , b.dateSale = :dateSale"
+            + " , b.price = :price"
+            + " , b.description = :description"
+            + " , b.status = :status"
+            + " WHERE b.bid = :bid")
     , @NamedQuery(name = "Book.findByStatus", query = "SELECT b FROM Book b WHERE b.status = :status")})
 public class Book implements Serializable {
 

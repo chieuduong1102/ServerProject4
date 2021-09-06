@@ -92,11 +92,14 @@ public class BookAPI {
 
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON)
-    public NotifyMessage updateBook(@RequestBody BookDTO book) {
+    public Book updateBook(@RequestBody BookDTO book) {
         BookService bookSer = new BookService();
         NotifyMessage msg = new NotifyMessage();
+        Book updatedBook = new Book();
         try {
-            Book updbook = new Book(book.getTitleBook(),
+            Book updbook = new Book(
+                    book.getBid(),
+                    book.getTitleBook(),
                     book.getAuthor(),
                     book.getManufacture(),
                     book.getPublishingCompany(),
@@ -105,13 +108,10 @@ public class BookAPI {
                     book.getPrice(),
                     book.getDescription(),
                     book.getStatus());
-            bookSer.updateBook(updbook);
-            msg.setCode(Constant.UPDATE_CODE_SUSCCESS);
-            msg.setMsg("Update Book Success!");
+            updatedBook = bookSer.updateBook(updbook);
         } catch (Exception e) {
-            msg.setCode(Constant.UPDATE_CODE_FAIL);
-            msg.setMsg(e.toString());
+            
         }
-        return msg;
+        return updatedBook;
     }
 }
