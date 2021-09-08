@@ -114,4 +114,18 @@ public class BookAPI {
         }
         return updatedBook;
     }
+    
+    @PostMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON)
+    public NotifyMessage deleteBook(@RequestBody BookDTO book) {
+        BookService bookSer = new BookService();
+        NotifyMessage msg = new NotifyMessage();
+        Book delBook = new Book();
+        try {
+            
+        } catch (Exception e) {
+            
+        }
+        return msg;
+    }
 }

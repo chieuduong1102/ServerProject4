@@ -5,6 +5,7 @@
  */
 package com.project4.hobookstore;
 
+import com.project4.hobookstore.base.Constant;
 import com.project4.hobookstore.base.NotifyMessage;
 import com.project4.hobookstore.dto.CategoryDTO;
 import com.project4.hobookstore.model.Book;
@@ -40,7 +41,6 @@ public class BookCategoryAPI {
         BookService bSer = new BookService();
         CategoryService cSer = new CategoryService();
         Book book = bSer.findBookByBId(bid);
-
         for (int i = 0; i < categoryName.size(); i++) {
             Bookcategory newBC = new Bookcategory();
             newBC.setBid(book);
@@ -49,4 +49,29 @@ public class BookCategoryAPI {
         }
         return listMsg;
     }
+
+    @PostMapping(path = "update", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<NotifyMessage> updateCategory(@RequestBody List<CategoryDTO> categoryName, @RequestParam("bid") Integer bid) throws Exception {
+        List<NotifyMessage> listMsg = new ArrayList<>();
+        BookCategoryService bcSer = new BookCategoryService();
+        BookService bSer = new BookService();
+        CategoryService cSer = new CategoryService();
+        Book book = bSer.findBookByBId(bid);
+        if (book != null) {
+            bcSer.deleteBookCategoryByBid(book.getBid());
+            for (int i = 0; i < categoryName.size(); i++) {
+                Bookcategory upBC = new Bookcategory();
+                upBC.setBid(book);
+                upBC.setCid(cSer.findIdOfCategoryByName(categoryName.get(i).getCategoryName()));
+                listMsg.add(bcSer.updateBookCategory(upBC));
+            }
+        } else {
+            NotifyMessage msg = new NotifyMessage();
+            msg.setCode(Constant.UPDATE_CODE_FAIL);
+            msg.setMsg("Update FAIL!");
+        }
+        return listMsg;
+    }
+
 }

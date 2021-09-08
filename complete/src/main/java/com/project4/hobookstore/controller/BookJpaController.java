@@ -413,18 +413,18 @@ public class BookJpaController implements Serializable {
         EntityManager em = null;
         em = getEntityManager();
         em.getTransaction().begin();
-        em.createNamedQuery("Book.updateBook").setParameter("titleBook", book.getTitleBook())
-                .setParameter("author", book.getAuthor())
-                .setParameter("manufacture", book.getManufacture())
-                .setParameter("publishingCompany", book.getPublishingCompany())
-                .setParameter("yearPublish", book.getYearPublish())
-                .setParameter("dateSale", book.getDateSale())
-                .setParameter("price", book.getPrice())
-                .setParameter("description", book.getDescription())
-                .setParameter("status", book.getStatus())
-                .setParameter("bid", book.getBid());
+        em.merge(book);
+//        createNamedQuery("Book.updateBook").setParameter("titleBook", book.getTitleBook())
+//                .setParameter("author", book.getAuthor())
+//                .setParameter("manufacture", book.getManufacture())
+//                .setParameter("publishingCompany", book.getPublishingCompany())
+//                .setParameter("yearPublish", book.getYearPublish())
+//                .setParameter("dateSale", book.getDateSale())
+//                .setParameter("price", book.getPrice())
+//                .setParameter("description", book.getDescription())
+//                .setParameter("status", book.getStatus())
+//                .setParameter("bid", book.getBid());
         em.getTransaction().commit();
         em.close();
     }
-
 }

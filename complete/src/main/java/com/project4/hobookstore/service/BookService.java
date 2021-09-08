@@ -66,6 +66,7 @@ public class BookService implements Serializable {
 
     }
     
+    
     public List<Book> findAll() {
         BookJpaController jpaController = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         return jpaController.getBookList();

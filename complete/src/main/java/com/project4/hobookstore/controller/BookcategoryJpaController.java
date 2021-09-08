@@ -202,6 +202,21 @@ public class BookcategoryJpaController implements Serializable {
         }
     }
     
+    public int deleteBookCategoryByBId(Integer bid) {
+        EntityManager em = getEntityManager();
+        try {
+            //em.getTransaction().begin();
+            em.createNamedQuery("Bookcategory.deleteByBId").setParameter("bid", bid).executeUpdate();
+            //em.flush();
+            //em.getTransaction().commit();
+            return 1;
+        }catch(Exception e){
+            return 0;
+        } finally {
+            em.close();
+        }
+    }
+    
     public int getBookcategoryCount() {
         EntityManager em = getEntityManager();
         try {

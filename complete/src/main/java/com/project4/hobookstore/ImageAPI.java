@@ -7,6 +7,7 @@ package com.project4.hobookstore;
 
 import com.project4.hobookstore.base.Constant;
 import com.project4.hobookstore.base.NotifyMessage;
+import com.project4.hobookstore.controller.exceptions.NonexistentEntityException;
 import com.project4.hobookstore.dto.BookDTO;
 import com.project4.hobookstore.dto.ImageDTO;
 import com.project4.hobookstore.encode.Encode;
@@ -50,7 +51,7 @@ public class ImageAPI {
     public ResponseEntity<List<ImageDTO>> getListFiles() {
         ImageService imgSer = new ImageService();
         List<Image> files = imgSer.findAllImage().stream().map(img -> {
-            String fileUri = "data:image/png;base64,"+ Encode.convertFileIntoBase64String(FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
+            String fileUri = "data:image/png;base64," + Encode.convertFileIntoBase64String(FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
                     "\\uploads\\", img.getNameFile());
             return new Image(fileUri);
         }).collect(Collectors.toList());
@@ -63,7 +64,7 @@ public class ImageAPI {
     public ResponseEntity<List<ImageDTO>> getImageByBid(@RequestParam("bid") Integer bid) {
         ImageService imgSer = new ImageService();
         List<Image> files = imgSer.findImagesByBid(bid).stream().map(img -> {
-            String fileUri = "data:image/png;base64,"+ Encode.convertFileIntoBase64String(FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
+            String fileUri = "data:image/png;base64," + Encode.convertFileIntoBase64String(FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
                     "\\uploads\\", img.getNameFile());
 
             return new Image(fileUri);
@@ -81,10 +82,15 @@ public class ImageAPI {
         try {
             Arrays.asList(images).stream().forEach(image -> {
                 try {
-                    imgSer.createImage(image, bid);
-                    imgSer.uploadFile(image);
-                    msg.setCode(Constant.CREATE_SUCCESS);
-                    msg.setMsg("Create Image Success!");
+
+                    if (imgSer.createImage(image, bid) == true) {
+                        imgSer.uploadFile(image);
+                        msg.setCode(Constant.CREATE_SUCCESS);
+                        msg.setMsg("Create Image Success!");
+                    } else {
+                        msg.setCode(Constant.CREATE_FAIL);
+                        msg.setMsg("Create Image Fail!");
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(ImageAPI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -96,6 +102,33 @@ public class ImageAPI {
         return msg;
     }
 
+    @PostMapping(path = "update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public NotifyMessage updateImage(@RequestParam("images") MultipartFile[] images, @RequestParam("bid") Integer bid) {
+        NotifyMessage msg = new NotifyMessage();
+        ImageService imgSer = new ImageService();
+        try {
+            imgSer.deleteImageByBid(bid);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ImageAPI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            Arrays.asList(images).stream().forEach(image -> {
+                try {
+                    imgSer.createImage(image, bid);
+                    imgSer.uploadFile(image);
+                    msg.setCode(Constant.UPDATE_CODE_SUSCCESS);
+                    msg.setMsg("Update Image Success!");
+                } catch (IOException ex) {
+                    Logger.getLogger(ImageAPI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        } catch (Exception e) {
+            msg.setCode(Constant.UPDATE_CODE_FAIL);
+            msg.setMsg("Update Image Fail!");
+        }
+        return msg;
+    }
 //    @PostMapping("/upload")
 //    public NotifyMessage uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
 //        ImageService imgSer = new ImageService();

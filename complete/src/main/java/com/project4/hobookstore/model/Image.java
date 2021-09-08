@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
     @NamedQuery(name = "Image.findByIid", query = "SELECT i FROM Image i WHERE i.iid = :iid"),
     @NamedQuery(name = "Image.findByBid", query = "SELECT i FROM Image i WHERE i.bid.bid = :bid"),
+    @NamedQuery(name = "Image.deleteByBId", query = "DELETE FROM Image i WHERE i.bid.bid = :bid"),
     @NamedQuery(name = "Image.findByNameFile", query = "SELECT i FROM Image i WHERE i.nameFile = :nameFile")})
 public class Image implements Serializable {
 

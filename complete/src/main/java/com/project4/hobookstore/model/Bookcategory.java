@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Bookcategory.findAll", query = "SELECT b FROM Bookcategory b")
         ,@NamedQuery(name = "Bookcategory.findByBId", query = "SELECT b FROM Bookcategory b WHERE b.bid.bid = :bid")
         ,@NamedQuery(name = "Bookcategory.findByBIdAndCId", query = "SELECT b FROM Bookcategory b WHERE b.bid.bid = :bid AND b.cid.cid = :cid")
+        ,@NamedQuery(name = "Bookcategory.deleteByBId", query = "DELETE FROM Bookcategory b WHERE b.bid.bid = :bid")
     , @NamedQuery(name = "Bookcategory.findById", query = "SELECT b FROM Bookcategory b WHERE b.id = :id")})
 public class Bookcategory implements Serializable {
 

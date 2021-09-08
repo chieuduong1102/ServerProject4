@@ -175,4 +175,19 @@ public class ImageJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public int deleteImageByBId(Integer bid) {
+        EntityManager em = getEntityManager();
+        try {
+            //em.getTransaction().begin();
+            em.createNamedQuery("Image.deleteByBId").setParameter("bid", bid).executeUpdate();
+            //em.flush();
+            //em.getTransaction().commit();
+            return 1;
+        }catch(Exception e){
+            return 0;
+        } finally {
+            em.close();
+        }
+    }
 }
