@@ -67,7 +67,7 @@ public class BookAPI {
     @GetMapping("/getNewBooks")
     public List<BookDTO> findNewBooks() throws IOException {
         BookService bookSer = new BookService();
-        return bookSer.findAll().stream()
+        return bookSer.findAllBookFull().stream()
                 .sorted((Book b1, Book b2) -> b2.getDateSale().compareTo(b1.getDateSale()))
                 .map(book -> modelMapper.map(book, BookDTO.class))
                 .collect(Collectors.toList()).subList(0, 9);
