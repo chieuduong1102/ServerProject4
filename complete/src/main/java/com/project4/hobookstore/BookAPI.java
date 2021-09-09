@@ -11,7 +11,9 @@ import com.project4.hobookstore.model.Book;
 import com.project4.hobookstore.base.Constant;
 import com.project4.hobookstore.base.NotifyMessage;
 import com.project4.hobookstore.dto.ImageDTO;
+import com.project4.hobookstore.model.Category;
 import com.project4.hobookstore.model.Image;
+import com.project4.hobookstore.service.CategoryService;
 import com.project4.hobookstore.service.ImageService;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,11 +57,20 @@ public class BookAPI {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/getBookHot")
-    public List<BookDTO> findBooksHot() throws IOException {
+    @GetMapping("/getAllBookByCategory")
+    public List<BookDTO> findAllBookOfCategory(@RequestParam(name = "cid") Integer cid) throws IOException {
         BookService bookSer = new BookService();
-        return bookSer.findAllBookFull().stream().map(book -> modelMapper.map(book, BookDTO.class))
+        return bookSer.findAllBookOfCategory(cid).stream().map(book -> modelMapper.map(book, BookDTO.class))
                 .collect(Collectors.toList());
+    }
+    
+    @GetMapping("/getNewBooks")
+    public List<BookDTO> findNewBooks() throws IOException {
+        BookService bookSer = new BookService();
+        return bookSer.findAll().stream()
+                .sorted((Book b1, Book b2) -> b2.getDateSale().compareTo(b1.getDateSale()))
+                .map(book -> modelMapper.map(book, BookDTO.class))
+                .collect(Collectors.toList()).subList(0, 9);
     }
     
     @GetMapping(path = "/bookInfo")

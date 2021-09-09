@@ -37,14 +37,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author DuongPH
  */
 public class BookService implements Serializable {
-//    public static void main(String[] args) {
-//        BookService dao = new BookService();
-//        List<Book> list = new ArrayList<>();
-//        list = dao.findAllBookFull();
-//        for (Book book : list) {
-//            System.out.println("Book: " + book.getImageList().get(0));
-//        }
-//    }
+    public static void main(String[] args) {
+        BookService dao = new BookService();
+        List<Book> list = new ArrayList<>();
+        list = dao.findAllBookOfCategory(6);
+        for (Book book : list) {
+            System.out.println("Book: " + book.getBid() + " - " + book.getTitleBook());
+        }
+    }
 
     public BookService() {
     }
@@ -185,6 +185,23 @@ public class BookService implements Serializable {
         newBook.setBookcategoryList(listBc);
 
         return newBook;
+    }
+    
+    public List<Book> findAllBookOfCategory(int cid){
+        BookJpaController bookJpa = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        BookService bookSer = new BookService();
+        List<Book> list = bookSer.findAllBookFull();
+        CategoryService catSer = new CategoryService();
+        Category cat = catSer.findCategoryByCId(cid);
+        List<Book> listBookCate = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).getBookcategoryList().size(); j++) {
+                if(list.get(i).getBookcategoryList().get(j).getCid().getCategoryName().equals(cat.getCategoryName())){
+                    listBookCate.add(list.get(i));
+                }
+            }
+        }
+        return listBookCate;
     }
     
     public void addBook(Book book) {
