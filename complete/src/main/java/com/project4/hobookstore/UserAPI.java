@@ -72,7 +72,7 @@ public class UserAPI {
             notify.setMsg(Constant.LOGIN_FAIL);
             notify.setCode(Constant.LOGIN_CODE_FAIL);
         } else if (userRoot != null) {
-            if (!userRoot.getPassword().equals(Encode.getSHAHash(user.getPassword())) || user.getPassword() == "" || user.getPassword() == null ) {
+            if (!userRoot.getPassword().equals(Encode.getMd5(Encode.getSHAHash(user.getPassword()))) || user.getPassword() == "" || user.getPassword() == null ) {
                 notify.setMsg(Constant.LOGIN_FAIL);
                 notify.setCode(Constant.LOGIN_CODE_FAIL);
             } else {
@@ -96,7 +96,7 @@ public class UserAPI {
             newUser.setEmail(user.getEmail());
             newUser.setAddress(user.getAddress());
             newUser.setPhonenumber(user.getPhonenumber());
-            newUser.setPassword(Encode.getSHAHash(user.getPassword()));
+            newUser.setPassword(Encode.getMd5(Encode.getSHAHash(user.getPassword())));
             msg = userSer.createUser(newUser);
         } catch (Exception e) {
             
@@ -116,7 +116,7 @@ public class UserAPI {
             updUser.setEmail(user.getEmail());
             updUser.setAddress(user.getAddress());
             updUser.setPhonenumber(user.getPhonenumber());
-            updUser.setPassword(Encode.getSHAHash(user.getPassword()));
+            updUser.setPassword(Encode.getMd5(Encode.getSHAHash(user.getPassword())));
             List<Ratingfeedback> listRf = new ArrayList<>();
             updUser.setRatingfeedbackList(listRf);
             List<Order1> listOd = new ArrayList<>();
@@ -140,7 +140,7 @@ public class UserAPI {
             delUser.setEmail(user.getEmail());
             delUser.setAddress(user.getAddress());
             delUser.setPhonenumber(user.getPhonenumber());
-            delUser.setPassword(Encode.getSHAHash(user.getPassword()));
+            delUser.setPassword(Encode.getMd5(Encode.getSHAHash(user.getPassword())));
             msg = userSer.deleteUser(delUser);
         } catch (Exception e) {
             

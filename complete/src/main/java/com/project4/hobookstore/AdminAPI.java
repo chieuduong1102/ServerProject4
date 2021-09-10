@@ -12,6 +12,7 @@ import com.project4.hobookstore.base.Constant;
 import com.project4.hobookstore.base.NotifyMessage;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +73,7 @@ public class AdminAPI {
             notify.setMsg(Constant.LOGIN_FAIL);
             notify.setCode(Constant.LOGIN_CODE_FAIL);
         } else if (adminRoot != null) {
-            if (!adminRoot.getPassword().equals(Encode.getSHAHash(adm.getPassword())) || adm.getPassword() == "" || adm.getPassword() == null) {
+            if (!adminRoot.getPassword().equals(Encode.getMd5(Encode.getSHAHash(adm.getPassword()))) || adm.getPassword() == "" || adm.getPassword() == null) {
                 notify.setMsg(Constant.LOGIN_FAIL);
                 notify.setCode(Constant.LOGIN_CODE_FAIL);
             } else {
@@ -95,7 +96,7 @@ public class AdminAPI {
             newAdmin.setUsername(adm.getUsername());
             newAdmin.setEmail(adm.getEmail());
             newAdmin.setPhonenumber(adm.getPhonenumber());
-            newAdmin.setPassword(Encode.getSHAHash(adm.getPassword()));
+            newAdmin.setPassword(Encode.getMd5(Encode.getSHAHash(adm.getPassword())));
             msg = admSer.createAdmin(newAdmin);
         } catch (Exception e) {
 
@@ -114,7 +115,7 @@ public class AdminAPI {
             updAdmin.setUsername(adm.getUsername());
             updAdmin.setEmail(adm.getEmail());
             updAdmin.setPhonenumber(adm.getPhonenumber());
-            updAdmin.setPassword(Encode.getSHAHash(adm.getPassword()));
+            updAdmin.setPassword(Encode.getMd5(Encode.getSHAHash(adm.getPassword())));
             msg = admDAO.updateAdmin(updAdmin);
         } catch (Exception e) {
 
@@ -133,7 +134,7 @@ public class AdminAPI {
             delAdmin.setUsername(adm.getUsername());
             delAdmin.setEmail(adm.getEmail());
             delAdmin.setPhonenumber(adm.getPhonenumber());
-            delAdmin.setPassword(Encode.getSHAHash(adm.getPassword()));
+            delAdmin.setPassword(Encode.getMd5(Encode.getSHAHash(adm.getPassword())));
             msg = admDAO.deleteAdmin(delAdmin);
         } catch (Exception e) {
 
