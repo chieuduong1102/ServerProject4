@@ -10,5 +10,5 @@ package com.project4.hobookstore.dto;
  * @author DuongPH
  */
 public class OrderdetailDTO {
-    
+
 }

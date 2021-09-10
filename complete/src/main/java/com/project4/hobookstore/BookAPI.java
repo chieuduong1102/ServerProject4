@@ -64,6 +64,13 @@ public class BookAPI {
                 .collect(Collectors.toList());
     }
     
+    @GetMapping("/getAllBookByPrice")
+    public List<BookDTO> findAllBookByPrice(@RequestParam(name = "price") String PtoP) throws IOException {
+        BookService bookSer = new BookService();
+        return bookSer.findAllBookByPrice(PtoP).stream().map(book -> modelMapper.map(book, BookDTO.class))
+                .collect(Collectors.toList());
+    }
+    
     @GetMapping("/getNewBooks")
     public List<BookDTO> findNewBooks() throws IOException {
         BookService bookSer = new BookService();

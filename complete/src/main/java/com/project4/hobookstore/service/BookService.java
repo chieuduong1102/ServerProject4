@@ -204,6 +204,22 @@ public class BookService implements Serializable {
         return listBookCate;
     }
     
+    public List<Book> findAllBookByPrice(String PtoP){
+        Double priceStart = Double.parseDouble(PtoP.split("to")[0]);
+        Double priceEnd = Double.parseDouble(PtoP.split("to")[1]);
+        BookJpaController bookJpa = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        BookService bookSer = new BookService();
+        List<Book> list = bookSer.findAllBookFull();
+        CategoryService catSer = new CategoryService();
+        List<Book> listBookP = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getPrice() > priceStart && list.get(i).getPrice() < priceEnd){
+                listBookP.add(list.get(i));
+            }
+        }
+        return listBookP;
+    }
+    
     public void addBook(Book book) {
         BookJpaController jpaController = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         jpaController.create(book);
