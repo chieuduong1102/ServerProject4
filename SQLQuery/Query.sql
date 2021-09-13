@@ -523,12 +523,13 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`oid`),
   KEY `username` (`username`),
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table project4.order: ~0 rows (approximately)
+-- Dumping data for table project4.order: ~2 rows (approximately)
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
 REPLACE INTO `order` (`oid`, `timeOrder`, `username`, `deliveryAddress`, `totalPrice`, `note`, `status`) VALUES
-	(1, '2021-09-12', 'duongph1', 'HN', 0, 'ABC', 1);
+	(1, '2021-09-12', 'duongph1', 'HN', 672000, 'ABC', 1),
+	(2, '2021-09-12', 'duongph1', 'HN', 0, 'ABC', 1);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 
 -- Dumping structure for table project4.orderdetail
@@ -543,13 +544,17 @@ CREATE TABLE IF NOT EXISTS `orderdetail` (
   KEY `bid` (`bid`),
   CONSTRAINT `orderdetail_ibfk_1` FOREIGN KEY (`oid`) REFERENCES `order` (`oid`),
   CONSTRAINT `orderdetail_ibfk_2` FOREIGN KEY (`bid`) REFERENCES `book` (`bid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table project4.orderdetail: ~0 rows (approximately)
+-- Dumping data for table project4.orderdetail: ~3 rows (approximately)
 /*!40000 ALTER TABLE `orderdetail` DISABLE KEYS */;
 REPLACE INTO `orderdetail` (`id`, `oid`, `bid`, `amount`) VALUES
 	(1, 1, 81, 1),
-	(2, 1, 81, 1);
+	(2, 1, 81, 1),
+	(9, 2, 81, 2),
+	(11, 1, 81, 1),
+	(12, 1, 81, 1),
+	(13, 1, 81, 2);
 /*!40000 ALTER TABLE `orderdetail` ENABLE KEYS */;
 
 -- Dumping structure for table project4.ratingfeedback
@@ -583,12 +588,28 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table project4.user: ~0 rows (approximately)
+-- Dumping data for table project4.user: ~2 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 REPLACE INTO `user` (`username`, `fullname`, `email`, `phonenumber`, `address`, `password`) VALUES
 	('duongph1', 'Pham Huu Duong', 'chieuduong1102@gmail.com', '0865765102', 'ngach 80C, ngo Van Huong,phuong Hang  Bot,quan Dong Da, Ha Noi', '6116afedcb0bc31083935c1c262ff4c9'),
 	('duongph111', 'Pham Huu Duong', 'chieuduong1102@gmail.com', '0865765102', 'ngach 80C, ngo Van Huong,phuong Hang  Bot,quan Dong Da, Ha Noi', '6116afedcb0bc31083935c1c262ff4c9');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+-- Dumping structure for trigger project4.orderdetail_after_insert
+DROP TRIGGER IF EXISTS `orderdetail_after_insert`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `orderdetail_after_insert` AFTER INSERT ON `orderdetail` FOR EACH ROW BEGIN
+	DECLARE order_id INTEGER;
+-- 	DECLARE total DOUBLE;
+	DECLARE product_price double;
+	SET order_id = NEW.oid;
+-- 	SELECT totalPrice FROM order INTO total;
+	SELECT NEW.amount * price from orderdetail JOIN book on orderdetail.bid = book.bid WHERE book.bid = NEW.bid LIMIT 1 INTO product_price;
+	UPDATE `order` SET totalPrice = IFNULL(totalPrice,0) + product_price WHERE oid = order_id;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
