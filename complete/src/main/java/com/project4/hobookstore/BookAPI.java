@@ -77,7 +77,7 @@ public class BookAPI {
         return bookSer.findAllBookFull().stream()
                 .sorted((Book b1, Book b2) -> b2.getDateSale().compareTo(b1.getDateSale()))
                 .map(book -> modelMapper.map(book, BookDTO.class))
-                .collect(Collectors.toList()).subList(0, 3);
+                .collect(Collectors.toList()).subList(0, 11);
     }
     
     @GetMapping(path = "/bookInfo")

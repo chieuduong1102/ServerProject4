@@ -61,6 +61,13 @@ public class Ratingfeedback implements Serializable {
         this.id = id;
     }
 
+    public Ratingfeedback(Integer scoreRate, String feedback, User username, Book bid) {
+        this.scoreRate = scoreRate;
+        this.feedback = feedback;
+        this.username = username;
+        this.bid = bid;
+    }
+    
     public Integer getId() {
         return id;
     }

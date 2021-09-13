@@ -20,10 +20,10 @@ import java.util.logging.Logger;
  * @author DuongPH
  */
 public class Encode {
-//    public static void main(String[] args) {
-//        System.out.println(getSHAHash("123"));
-//                System.out.println(getMd5(getSHAHash("123")));
-//    }
+    public static void main(String[] args) {
+        System.out.println(getSHAHash("123"));
+                System.out.println(getMd5(getSHAHash("123")));
+    }
     public static String getSHAHash(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");

@@ -228,5 +228,40 @@ public class Order1JpaController implements Serializable {
             em.close();
         }
     }
-    
+        public void createNewOrder(Order1 order) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.persist(order);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public int updateOrderStatus(Integer oid, Integer status) {
+        EntityManager em = null;
+        int rowsUpdated;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("UPDATE Order1 o SET o.status = :status WHERE o.oid = :oid");
+            query.setParameter("status", status);
+            query.setParameter("oid", oid);
+            rowsUpdated = query.executeUpdate();
+            em.getTransaction().commit();
+            
+        }catch (Exception ex){
+            ex.printStackTrace();
+            rowsUpdated = 0;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return rowsUpdated;
+    }
 }

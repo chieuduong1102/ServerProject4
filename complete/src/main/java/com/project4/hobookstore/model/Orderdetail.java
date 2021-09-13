@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Orderdetail.findAll", query = "SELECT o FROM Orderdetail o")
     , @NamedQuery(name = "Orderdetail.findById", query = "SELECT o FROM Orderdetail o WHERE o.id = :id")
     , @NamedQuery(name = "Orderdetail.findByBId", query = "SELECT o FROM Orderdetail o WHERE o.bid.bid = :bid")
+        , @NamedQuery(name = "Orderdetail.findByOId", query = "SELECT o FROM Orderdetail o WHERE o.oid = :oid")
     , @NamedQuery(name = "Orderdetail.findByAmount", query = "SELECT o FROM Orderdetail o WHERE o.amount = :amount")})
 public class Orderdetail implements Serializable {
 
@@ -61,6 +62,12 @@ public class Orderdetail implements Serializable {
     public Orderdetail(Integer id, int amount) {
         this.id = id;
         this.amount = amount;
+    }
+
+    public Orderdetail(int amount, Order1 oid, Book bid) {
+        this.amount = amount;
+        this.oid = oid;
+        this.bid = bid;
     }
 
     public Integer getId() {
@@ -119,5 +126,5 @@ public class Orderdetail implements Serializable {
     public String toString() {
         return "com.example.restservice.model.Orderdetail[ id=" + id + " ]";
     }
-    
+
 }

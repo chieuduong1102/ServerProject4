@@ -260,4 +260,22 @@ public class UserJpaController implements Serializable {
         }
     }
     
+    public User findUserByName(String username) {
+        EntityManager em = null;
+        User user = null;
+        try {
+            em = getEntityManager();
+            Query query = em.createQuery(
+                    "SELECT u FROM User u WHERE u.username = :username ");
+            query.setParameter("username", username);
+            user = (User) query.getSingleResult();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return user;
+    }
 }

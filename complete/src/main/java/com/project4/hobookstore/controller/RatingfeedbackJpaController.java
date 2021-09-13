@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import com.project4.hobookstore.model.User;
 import com.project4.hobookstore.model.Book;
 import com.project4.hobookstore.model.Ratingfeedback;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -180,7 +181,7 @@ public class RatingfeedbackJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Ratingfeedback findRatingfeedback(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -202,5 +203,63 @@ public class RatingfeedbackJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public int createNewFeedback(Ratingfeedback fb) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.persist(fb);
+            em.getTransaction().commit();
+            return 1;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return 0;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public List<Ratingfeedback> getFeedbackByBookId(Book bid) {
+        EntityManager em = null;
+        List<Ratingfeedback> list = new ArrayList<>();
+        try {
+            em = getEntityManager();
+            Query query = em.createQuery(
+                    "SELECT r FROM Ratingfeedback r WHERE r.bid = :bid");
+            query.setParameter("bid", bid);
+            list = query.getResultList();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return list;
+
+    }
+
+    public Ratingfeedback checkFeedbackExist(User user, Book bid) {
+        EntityManager em = null;
+        Ratingfeedback feedback = null;
+        try {
+            em = getEntityManager();
+            Query query = em.createQuery(
+                    "SELECT r FROM Ratingfeedback r WHERE r.bid = :bid AND r.username = :username");
+            query.setParameter("bid", bid);
+            query.setParameter("username", user);
+            feedback = (Ratingfeedback) query.getSingleResult();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return feedback;
+    }
+
 }

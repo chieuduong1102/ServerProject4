@@ -12,7 +12,7 @@ package com.project4.hobookstore.dto;
 public class AdminDTO {
     private String username;
     private String password;
-
+    
     public String getUsername() {
         return username;
     }

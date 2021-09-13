@@ -203,4 +203,27 @@ public class OrderdetailJpaController implements Serializable {
         }
     }
     
+    public void createNewOrderDetail(Orderdetail orderDetail) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.persist(orderDetail);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+    
+    //Lấy orderdetail theo order id
+    public List<Orderdetail> getOrderDetailByOrderId(Order1 order) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createNamedQuery("Orderdetail.findByOId").setParameter("oid", order).getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

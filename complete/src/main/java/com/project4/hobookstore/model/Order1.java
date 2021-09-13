@@ -91,6 +91,15 @@ public class Order1 implements Serializable {
         this.status = status;
     }
 
+    public Order1(String timeOrder,User username, String deliveryAddress, double totalPrice, String note, int status ) {
+        this.timeOrder = timeOrder;
+        this.deliveryAddress = deliveryAddress;
+        this.totalPrice = totalPrice;
+        this.note = note;
+        this.status = status;
+        this.username = username;
+    }
+    
     public Integer getOid() {
         return oid;
     }

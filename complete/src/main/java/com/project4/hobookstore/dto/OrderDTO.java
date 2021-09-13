@@ -16,16 +16,27 @@ import lombok.Data;
  */
 @Data
 public class OrderDTO {
+private Integer oid;
     
     private String timeOrder;
+    
     private String deliveryAddress;
+   
     private double totalPrice;
+   
     private String note;
+    
     private int status;
-    private String username;
-    private int amount;
-    private int oid;
-    private int bid;
+  
+    private String userName;
+
+    public Integer getOid() {
+        return oid;
+    }
+
+    public void setOid(Integer oid) {
+        this.oid = oid;
+    }
 
     public String getTimeOrder() {
         return timeOrder;
@@ -67,38 +78,11 @@ public class OrderDTO {
         this.status = status;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public int getOid() {
-        return oid;
-    }
-
-    public void setOid(int oid) {
-        this.oid = oid;
-    }
-
-    public int getBid() {
-        return bid;
-    }
-
-    public void setBid(int bid) {
-        this.bid = bid;
-    }
-    
-    
-    
+    public void setUserName(String userName) {
+        this.userName = userName;
+    } 
 }
