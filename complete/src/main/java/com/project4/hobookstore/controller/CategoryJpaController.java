@@ -191,6 +191,8 @@ public class CategoryJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return (Category) em.createNamedQuery("Category.findByCategoryName").setParameter("categoryName", name).getSingleResult();
+        } catch (Exception e) {
+            return  null;
         } finally {
             em.close();
         }
@@ -260,9 +262,6 @@ public class CategoryJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("Category.deleteBookCategory")
-                    .setParameter("cid", findCategory(categoryId))
-                    .executeUpdate();
             int result = em.createNamedQuery("Category.deleteCategory")
                     .setParameter("cid", categoryId)
                     .executeUpdate();

@@ -225,5 +225,14 @@ public class BookService implements Serializable {
         jpaController.create(book);
     }
 
-    
+    public List<Book> findBestSeller(){
+        BookJpaController jpaController = new BookJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        List<Integer> listBid = jpaController.findBestSeller();
+        if(listBid.isEmpty()) return null;
+        List<Book> listBestSeller = new ArrayList<>();
+        for (Integer bid : listBid) {
+            listBestSeller.add(this.findBookByBId(bid));
+        }
+        return listBestSeller;
+    }
 }

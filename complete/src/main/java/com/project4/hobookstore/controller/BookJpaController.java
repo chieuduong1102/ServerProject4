@@ -7,6 +7,7 @@ package com.project4.hobookstore.controller;
 
 import com.project4.hobookstore.controller.exceptions.IllegalOrphanException;
 import com.project4.hobookstore.controller.exceptions.NonexistentEntityException;
+import com.project4.hobookstore.dto.BestSellerDTO;
 import com.project4.hobookstore.model.Book;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -19,6 +20,7 @@ import java.util.List;
 import com.project4.hobookstore.model.Image;
 import com.project4.hobookstore.model.Bookcategory;
 import com.project4.hobookstore.model.Orderdetail;
+import java.math.BigDecimal;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -426,5 +428,34 @@ public class BookJpaController implements Serializable {
 //                .setParameter("bid", book.getBid());
         em.getTransaction().commit();
         em.close();
+    }
+
+    public List<Integer> findBestSeller() {
+        EntityManager em = getEntityManager();
+        List<Integer> listBid = new ArrayList<>();
+        List<Object[]> listObj = new ArrayList<>();
+        List<BestSellerDTO> list = new ArrayList<>();
+        try {
+            Query query = em.createNativeQuery("SELECT o.bid,SUM(o.amount) as total FROM Orderdetail o GROUP BY o.bid ORDER BY total DESC LIMIT 7");
+            listObj = query.getResultList();
+            for (Object[] item : listObj) {
+                BestSellerDTO dto = new BestSellerDTO((Integer) item[0], ((BigDecimal) item[1]).intValue());
+                list.add(dto);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        if (list.isEmpty()) {
+            return null;
+        }
+        list.forEach((b) -> {
+            listBid.add(b.getBid());
+        });
+        return listBid;
     }
 }

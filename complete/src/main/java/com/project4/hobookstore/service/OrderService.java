@@ -27,6 +27,11 @@ public class OrderService implements Serializable {
         order1JpaController.createNewOrder(order);
         return order;
     }
+    
+    public Order1 getOrderByOrderId(Integer id) {
+        Order1JpaController order1JpaController = new Order1JpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        return order1JpaController.findOrder1(id);
+    }
 
     public Order1 findOrderById(Integer id) {
         Order1JpaController order1JpaController = new Order1JpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));

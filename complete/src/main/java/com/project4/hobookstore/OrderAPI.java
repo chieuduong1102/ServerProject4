@@ -89,10 +89,19 @@ public class OrderAPI {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping(path = "/getOrder")
+    public OrderDTO getOrdersByOrderId(@RequestParam(name = "oid") Integer oid) {
+        OrderService orderSer = new OrderService();
+        Order1 order =  orderSer.getOrderByOrderId(oid);
+        return modelMapper.map(order, OrderDTO.class);
+    }
+    
     @GetMapping("/getOrderList")
     public List<OrderDTO> getOrderList() {
         OrderService orderSer = new OrderService();
-        return orderSer.getOrderList().stream().map(book -> modelMapper.map(book, OrderDTO.class))
+        return orderSer.getOrderList().stream()
+                .sorted((Order1 o1, Order1 o2) -> o2.getTimeOrder().compareTo(o1.getTimeOrder()))
+                .map(book -> modelMapper.map(book, OrderDTO.class))
                 .collect(Collectors.toList());
     }
 
