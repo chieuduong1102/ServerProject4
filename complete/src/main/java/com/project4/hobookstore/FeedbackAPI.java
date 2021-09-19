@@ -39,21 +39,20 @@ public class FeedbackAPI {
     @Autowired
     private ModelMapper modelMapper;
 
-    
-     @GetMapping("/getFeedbackList")
+    @GetMapping("/getFeedbackList")
     public List<RatingfeedbackDTO> getFeedbackList() {
         FeedbackService feedBackService = new FeedbackService();
         return feedBackService.getFeedbackList().stream().map(book -> modelMapper.map(book, RatingfeedbackDTO.class))
                 .collect(Collectors.toList());
     }
-    
+
     @GetMapping("/getFeedbackByBid")
-    public List<RatingfeedbackDTO> getFeedbackByBookId(@RequestParam(name="bid") Integer bookId) {
+    public List<RatingfeedbackDTO> getFeedbackByBookId(@RequestParam(name = "bid") Integer bookId) {
         FeedbackService feedBackService = new FeedbackService();
         return feedBackService.getFeedbackByBookId(bookId).stream().map(book -> modelMapper.map(book, RatingfeedbackDTO.class))
                 .collect(Collectors.toList());
     }
-    
+
     @PostMapping(path = "/create", consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON)
     public NotifyMessage createFeedback(@RequestBody RatingfeedbackDTO feedback) {
@@ -64,22 +63,16 @@ public class FeedbackAPI {
         try {
             Book book = bookService.findBookByBId(feedback.getBid());
             User user = userService.findUser(feedback.getUsername());
-            Boolean createSuccess =false;
-            if(feedBackService.checkFeebackExister(feedback.getUsername(), feedback.getBid())){
-                Ratingfeedback newFeedback = new Ratingfeedback(feedback.getScoreRate(),
+            Boolean createSuccess = false;
+            Ratingfeedback newFeedback = new Ratingfeedback(feedback.getScoreRate(),
                     feedback.getFeedback(),
                     user,
                     book);
-                createSuccess = feedBackService.createNewFeedback(newFeedback);
-            }else{
-                message.setCode(Constant.CREATE_FAIL);
-                message.setMsg("You had already feedback this book!");
-                return message;
-            }
+            createSuccess = feedBackService.createNewFeedback(newFeedback);
             if (createSuccess) {
                 message.setCode(Constant.CREATE_SUCCESS);
                 message.setMsg("Create Feedback Successfully!");
-            }else{
+            } else {
                 message.setCode(Constant.CREATE_FAIL);
                 message.setMsg("Create Feedback failed!");
             }
@@ -89,6 +82,5 @@ public class FeedbackAPI {
         }
         return message;
     }
-    
-    
+
 }

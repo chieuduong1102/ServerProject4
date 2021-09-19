@@ -228,7 +228,8 @@ public class Order1JpaController implements Serializable {
             em.close();
         }
     }
-        public void createNewOrder(Order1 order) {
+
+    public void createNewOrder(Order1 order) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -253,8 +254,8 @@ public class Order1JpaController implements Serializable {
             query.setParameter("oid", oid);
             rowsUpdated = query.executeUpdate();
             em.getTransaction().commit();
-            
-        }catch (Exception ex){
+
+        } catch (Exception ex) {
             ex.printStackTrace();
             rowsUpdated = 0;
         } finally {
@@ -263,5 +264,26 @@ public class Order1JpaController implements Serializable {
             }
         }
         return rowsUpdated;
+    }
+
+    public List<Order1> findOrderByUserName(User userName) {
+        if (userName == null) {
+            return null;
+        }
+        EntityManager em = null;
+        List<Order1> list = null;
+        try {
+            em = getEntityManager();
+            Query query = em.createQuery("SELECT o FROM Order1 o WHERE o.username = :username");
+            query.setParameter("username", userName);
+            list = query.getResultList();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return list;
     }
 }

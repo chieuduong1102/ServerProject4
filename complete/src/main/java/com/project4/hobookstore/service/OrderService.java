@@ -7,9 +7,12 @@ package com.project4.hobookstore.service;
 
 import com.project4.hobookstore.controller.Order1JpaController;
 import com.project4.hobookstore.controller.OrderdetailJpaController;
+import com.project4.hobookstore.controller.UserJpaController;
 import com.project4.hobookstore.model.Order1;
 import com.project4.hobookstore.model.Orderdetail;
+import com.project4.hobookstore.model.User;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Persistence;
 
@@ -27,7 +30,7 @@ public class OrderService implements Serializable {
         order1JpaController.createNewOrder(order);
         return order;
     }
-    
+
     public Order1 getOrderByOrderId(Integer id) {
         Order1JpaController order1JpaController = new Order1JpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         return order1JpaController.findOrder1(id);
@@ -49,15 +52,25 @@ public class OrderService implements Serializable {
         Order1 order = order1JpaController.findOrder1(id);
         return orderdetailJpaController.getOrderDetailByOrderId(order);
     }
-    
-    public List<Order1> getOrderList(){
+
+    public List<Order1> getOrderList() {
         Order1JpaController order1JpaController = new Order1JpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
         return order1JpaController.findOrder1Entities();
     }
-    
-    public int updateOrderStatus(Integer oid,Integer status){
-       Order1JpaController order1JpaController = new Order1JpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
-       return order1JpaController.updateOrderStatus(oid, status);
+
+    public int updateOrderStatus(Integer oid, Integer status) {
+        Order1JpaController order1JpaController = new Order1JpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        return order1JpaController.updateOrderStatus(oid, status);
+    }
+
+    public List<Order1> findOrderByUserName(String userName) {
+        Order1JpaController order1JpaController = new Order1JpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        UserJpaController userJpaController = new UserJpaController(Persistence.createEntityManagerFactory("ServerRESTfulAPIPU"));
+        List<Order1> list = new ArrayList<>();
+        User user = userJpaController.findUserByName(userName);
+        if (user != null) {
+            list = order1JpaController.findOrderByUserName(user);
+        }
+        return list;
     }
 }
-

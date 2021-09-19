@@ -16,6 +16,7 @@ import com.project4.hobookstore.model.User;
 import com.project4.hobookstore.service.BookService;
 import com.project4.hobookstore.service.OrderService;
 import com.project4.hobookstore.service.UserService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.MediaType;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RequestMapping("/order")
 public class OrderAPI {
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -92,10 +94,10 @@ public class OrderAPI {
     @GetMapping(path = "/getOrder")
     public OrderDTO getOrdersByOrderId(@RequestParam(name = "oid") Integer oid) {
         OrderService orderSer = new OrderService();
-        Order1 order =  orderSer.getOrderByOrderId(oid);
+        Order1 order = orderSer.getOrderByOrderId(oid);
         return modelMapper.map(order, OrderDTO.class);
     }
-    
+
     @GetMapping("/getOrderList")
     public List<OrderDTO> getOrderList() {
         OrderService orderSer = new OrderService();
@@ -116,15 +118,29 @@ public class OrderAPI {
             message.setCode(Constant.UPDATE_CODE_FAIL);
             message.setMsg(e.toString());
         }
-        if (result >0) {
+        if (result > 0) {
             message.setCode(Constant.UPDATE_CODE_SUSCCESS);
             message.setMsg("Cập nhật trạng thái hóa đơn thành công");
-        }else{
+        } else {
             message.setCode(Constant.UPDATE_CODE_FAIL);
             message.setMsg("Cập nhật trạng thái hóa đơn thất bại");
         }
         return message;
     }
 
-}
+    @GetMapping(path = "/getOrderByUserName")
+    public List<OrderDTO> getOrdersByUserName(@RequestParam(name = "username") String username) {
+        OrderService orderSer = new OrderService();
+        if (!username.isEmpty()) {
+            List<Order1> list = orderSer.findOrderByUserName(username);
+            if (list.isEmpty()) {
+                return new ArrayList<>();
+            } else {
+                return orderSer.findOrderByUserName(username).stream().map(order -> modelMapper.map(order, OrderDTO.class))
+                        .collect(Collectors.toList());
+            }
+        }
+        return new ArrayList<>();
+    }
 
+}
