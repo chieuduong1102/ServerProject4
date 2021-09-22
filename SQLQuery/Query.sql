@@ -32,7 +32,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
 -- Dumping data for table project4.admin: ~1 rows (approximately)
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
 REPLACE INTO `admin` (`username`, `fullname`, `email`, `phonenumber`, `password`) VALUES
-	('duongph', 'Duong', 'duong@gmail.com', '1234567890', '6116afedcb0bc31083935c1c262ff4c9');
+	('duongph', 'Duong', 'duong@gmail.com', '1234567890', '6116afedcb0bc31083935c1c262ff4c9'),
+	('oanhnt', 'Pham Huu Duong', 'chieuduong1102@gmail.com', '0865765102', '6116afedcb0bc31083935c1c262ff4c9');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 
 -- Dumping structure for table project4.book
@@ -240,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `cid` int(11) NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(100) NOT NULL,
   PRIMARY KEY (`cid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table project4.category: ~8 rows (approximately)
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
@@ -523,13 +524,22 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`oid`),
   KEY `username` (`username`),
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table project4.order: ~2 rows (approximately)
+-- Dumping data for table project4.order: ~10 rows (approximately)
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
 REPLACE INTO `order` (`oid`, `timeOrder`, `username`, `deliveryAddress`, `totalPrice`, `note`, `status`) VALUES
-	(1, '2021-09-12', 'duongph1', 'HN', 672000, 'ABC', 1),
-	(2, '2021-09-12', 'duongph1', 'HN', 0, 'ABC', 1);
+	(1, '2021-09-11', 'duongph1', 'HN', 1008000, 'ABC', 0),
+	(2, '2021-09-12', 'duongph1', 'HN', 264000, 'ABC', -1),
+	(3, '2021-09-12', 'duongph123', 'HN', 220000, NULL, 0),
+	(4, '2021-9-19', 'duongph123', 'Ha Noi', 281000, '123', 0),
+	(5, '2021-9-19', 'duongph123', 'Thai Binh', 260000, '11111111', 0),
+	(6, '2021-9-19', 'duongph123', 'Ha Noi', 445000, '123', 0),
+	(7, '2021-9-19', 'duongph123', 'Ha Noi', 135000, '123', 0),
+	(8, '2021-9-19', 'duongph123', 'HN', 135000, '123', 0),
+	(9, '19', 'duongph123', 'HN0', 390000, '123', 0),
+	(10, '19-09-2021 18:04', 'duongph123', 'HN1', 260000, '123', 0),
+	(11, '2021-09-20 18:54', 'duongph123', 'Đống Đa, Hà Nội', 356000, 'AAA', 1);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 
 -- Dumping structure for table project4.orderdetail
@@ -544,17 +554,26 @@ CREATE TABLE IF NOT EXISTS `orderdetail` (
   KEY `bid` (`bid`),
   CONSTRAINT `orderdetail_ibfk_1` FOREIGN KEY (`oid`) REFERENCES `order` (`oid`),
   CONSTRAINT `orderdetail_ibfk_2` FOREIGN KEY (`bid`) REFERENCES `book` (`bid`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table project4.orderdetail: ~3 rows (approximately)
+-- Dumping data for table project4.orderdetail: ~14 rows (approximately)
 /*!40000 ALTER TABLE `orderdetail` DISABLE KEYS */;
 REPLACE INTO `orderdetail` (`id`, `oid`, `bid`, `amount`) VALUES
-	(1, 1, 81, 1),
+	(1, 1, 92, 1),
 	(2, 1, 81, 1),
 	(9, 2, 81, 2),
-	(11, 1, 81, 1),
-	(12, 1, 81, 1),
-	(13, 1, 81, 2);
+	(14, 1, 82, 1),
+	(16, 2, 83, 1),
+	(17, 2, 83, 1),
+	(18, 2, 91, 3),
+	(19, 3, 125, 2),
+	(20, 8, 84, 1),
+	(21, 8, 88, 1),
+	(22, 9, 106, 1),
+	(23, 9, 105, 1),
+	(24, 10, 86, 1),
+	(25, 10, 85, 1),
+	(26, 11, 88, 2);
 /*!40000 ALTER TABLE `orderdetail` ENABLE KEYS */;
 
 -- Dumping structure for table project4.ratingfeedback
@@ -570,10 +589,20 @@ CREATE TABLE IF NOT EXISTS `ratingfeedback` (
   KEY `bid` (`bid`),
   CONSTRAINT `ratingfeedback_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
   CONSTRAINT `ratingfeedback_ibfk_2` FOREIGN KEY (`bid`) REFERENCES `book` (`bid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table project4.ratingfeedback: ~0 rows (approximately)
+-- Dumping data for table project4.ratingfeedback: ~8 rows (approximately)
 /*!40000 ALTER TABLE `ratingfeedback` DISABLE KEYS */;
+REPLACE INTO `ratingfeedback` (`id`, `username`, `bid`, `scoreRate`, `feedback`) VALUES
+	(1, 'duongph123', 82, 4, 'A book review is a form of literary criticism in which a book is merely described or analyzed based on content, style, and merit. A book review may be a primary source, opinion piece, summary review or scholarly review.'),
+	(2, 'duongph1', 82, 4, 'Sách OK'),
+	(3, 'duongph111', 82, 3, 'Sách OK'),
+	(4, 'duongph111', 84, 3, 'Sách OK'),
+	(5, 'duongph1', 84, 4, 'Sách OK'),
+	(6, 'duongph123', 84, 4, 'Sách OK'),
+	(7, 'duongph111', 82, 2, 'Sách OK'),
+	(8, 'duongph111', 82, 5, 'Sách OK'),
+	(9, 'duongph111', 82, 4, 'Sách hay');
 /*!40000 ALTER TABLE `ratingfeedback` ENABLE KEYS */;
 
 -- Dumping structure for table project4.user
@@ -592,7 +621,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 REPLACE INTO `user` (`username`, `fullname`, `email`, `phonenumber`, `address`, `password`) VALUES
 	('duongph1', 'Pham Huu Duong', 'chieuduong1102@gmail.com', '0865765102', 'ngach 80C, ngo Van Huong,phuong Hang  Bot,quan Dong Da, Ha Noi', '6116afedcb0bc31083935c1c262ff4c9'),
-	('duongph111', 'Pham Huu Duong', 'chieuduong1102@gmail.com', '0865765102', 'ngach 80C, ngo Van Huong,phuong Hang  Bot,quan Dong Da, Ha Noi', '6116afedcb0bc31083935c1c262ff4c9');
+	('duongph111', 'Pham Huu Duong', 'chieuduong1102@gmail.com', '0865765102', 'ngach 80C, ngo Van Huong,phuong Hang  Bot,quan Dong Da, Ha Noi', 'b3bf6901b91d01ec65eb3848bef053d0'),
+	('duongph123', 'Pham Huu Duong', 'chieuduong1102@gmail.com', '0865765102', 'ngach 80C, ngo Van Huong,phuong Hang  Bot,quan Dong Da, Ha Noi', '6116afedcb0bc31083935c1c262ff4c9');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for trigger project4.orderdetail_after_insert

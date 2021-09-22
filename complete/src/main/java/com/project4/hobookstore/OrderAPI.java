@@ -55,7 +55,7 @@ public class OrderAPI {
                     order.getDeliveryAddress(),
                     order.getTotalPrice(),
                     order.getNote(),
-                    order.getStatus());
+                    0);
             return orderService.createOrder(newOrder).getOid();
         } catch (Exception e) {
             return null;
